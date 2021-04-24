@@ -143,7 +143,7 @@ Approximate value of one NEO at time of pageload (in USD):</small></small>
 
 <script language="JavaScript">
   $.getJSON("https://accounts.hive-engine.com/marketHistory?symbol=LUV", function(data){
-            $("#LUVPrice").text(data["USD"].toFixed(2));
+            $("#LUVPrice").text(data["closePrice"].toFixed(2));
         }).fail(function( dat, textStatus, error ) {
                     var err = textStatus + ", " + error;
                     alert(err);
