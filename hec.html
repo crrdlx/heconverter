@@ -120,7 +120,7 @@
     
                 <ul class="pure-menu-list">
                     <li class="pure-menu-item pure-menu-selected"><a href="#" class="pure-menu-link">Home</a></li>
-                    <li class="pure-menu-item"><a href="pages/page_1.html" class="pure-menu-link">Page 1</a></li>
+                    <li class="pure-menu-item"><a href="pages/LUV.html" class="pure-menu-link">LUV</a></li>
                     <li class="pure-menu-item"><a href="pages/page_2.html" class="pure-menu-link">Page 2</a></li>
                     <li class="pure-menu-item"><a href="pages/doggone.html" class="pure-menu-link">Doggone</a></li>
                     <li class="pure-menu-item"><a href="pages/about.html" class="pure-menu-link">About</a></li>
@@ -132,83 +132,34 @@
             <br>
             <center>
             <div class="w3-container">
-              <a href="index.html" class="w3-button w3-round-large w3-red" > LUV Converter </a>
+              <a href="index.html" class="w3-button w3-round-large w3-red" > HEconverter </a>
             </div>
-            </center>
-            <small>Enter a number.<br></small>
-            <table border="0" cellpadding="0" cellspacing="0" width="">
-            <form name="BTCunitconverter">
-            <tbody>
-            <tr>
-            <td>
-            <input type="number" onkeyup="BTCconvert()" value="" name="BTC" size="12"> LUV</td>
-            </tr>
-            
-            <tr>
-            <td><input type="number" onkeyup="LiveConvert()" value="$" name="LiveConvert" size="12"> &#8776; USD <small>at pageload</small></td>
-            </tr>
-            
-            </tbody></form></table>
-            <p align="left">
-            
-            <small><small>
-            LUV &#8594; USD conversion | <a href="FiatToHE/USDtoLUV.htm">USD &#8594; LUV conversion</a><br>
-            Approximate value of one LUV from the day's last closing price (in USD):</small></small>
-            <center>
-            <big>
-            <div id="LUVPrice"/>Loading current price...</div>
-            <div id="CurrentPrice"/></div>
-            </big>
-            <span style="color:firebrick">United States Dollar (USD)</span>
-            <p>
-            </center>
-            <p>
-            
-            
-            <script language="JavaScript">
-              $.getJSON("https://accounts.hive-engine.com/marketHistory?symbol=LUV", function(data){
-                        $("#LUVPrice").text(data[0].closePrice).toFixed(2);
-                    }).fail(function( dat, textStatus, error ) {
-                                var err = textStatus + ", " + error;
-                                alert(err);
-                    });
-            
-            var CurrentPrice = document.getElementById('LUVPrice');
-                CurrentPrice.innerHTML = BTCPrice.innerHTML;
-            
-            /*
-            cm/inch/feet converter - credit must stay intact for use
-            By Ada Shimar ada@chalktv.com
-            For this script and more,
-            Visit http://javascriptkit.com
-            */
-            function BTCconvert(){
-            with (document.BTCunitconverter){
-            LiveConvert.value = (BTC.value*CurrentPrice.innerHTML);
-            }
-            }
-            
-            function LiveConvert(){
-            with (document.BTCunitconverter){
-            LiveConvert.value = (CurrentPrice.innerHTML);
-            }
-            }
-            </script>
-            
-            
-            
-            <p>
-            <a href="javascript:document.location.reload();"
-            ONMOUSEOVER="window.status='Refresh'; return true"
-            ONMOUSEOUT="window.status='ah... that was good'">
-            <center><img src="refresh.png" 
-            width="85" height="" border="0" /></a></center>
-            <p>
-            
-            
-            <p>
-            <center><img src="icon36x36.jpg" border="0" width=18></center>
+        </center>
+This tool switches between the Hive-Engine token price and the USD price. Or, the other way around.
+<p>
+    It tries to help answer questions like:
+    <p>
+    <ol>
+    <li>If I had X amount of the XYZ token, about how much would that be in USD?
+    <li>If I spent $10 USD, about how many XYZ tokens could I buy?
+    </ol>
 
+<big><b><---Choose a token.</b></big>
+    <p>
+<small>
+<b>Disclaimer</b>
+<p>
+Use this tool at your own risk. It's for quick reference only. It uses the <u>last close price from the day prior</u>. Prices may well have changed since then and might have changed considerably. Use current Hive-Engine prices for trading.
+</p>
+<p>
+Hive-Engine token markets:
+</p>
+    <ul>
+    <li><a href="https://hive-engine.com/?p=market&t=BEE" target="_blank">Hive-Engine</a></li>
+    <li><a href="https://tribaldex.com/trade/BEE" target="_blank">TribalDex</a></li>
+    <li><a href="https://leodex.io/market/BEE" target="_blank">LeoDEX</a></li>
+    </ul>
+ </small>
 
 <!-- Default Statcounter code for HEconverter
 https://crrdlx.github.io/heconverter/index.html -->
