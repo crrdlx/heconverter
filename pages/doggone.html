@@ -40,6 +40,93 @@
         </div>
     </div>
 
+
+
+    <big>
+        <br>
+        <center>
+        <div class="w3-container">
+          <a href="index.html" class="w3-button w3-round-large w3-red" > LUV Converter </a>
+        </div>
+        </center>
+        <small>Enter a number.<br></small>
+        <table border="0" cellpadding="0" cellspacing="0" width="">
+        <form name="BTCunitconverter">
+        <tbody>
+        <tr>
+        <td>
+        <input type="number" onkeyup="BTCconvert()" value="" name="BTC" size="12"> LUV</td>
+        </tr>
+        
+        <tr>
+        <td><input type="number" onkeyup="LiveConvert()" value="$" name="LiveConvert" size="12"> &#8776; USD <small>at pageload</small></td>
+        </tr>
+        
+        </tbody></form></table>
+        <p align="left">
+        
+        <small><small>
+        LUV &#8594; USD conversion | <a href="FiatToHE/USDtoLUV.htm">USD &#8594; LUV conversion</a><br>
+        Approximate value of one LUV from the day's last closing price (in USD):</small></small>
+        <center>
+        <big>
+        <div id="LUVPrice"/>Loading current price...</div>
+        <div id="CurrentPrice"/></div>
+        </big>
+        <span style="color:firebrick">United States Dollar (USD)</span>
+        <p>
+        </center>
+        <p>
+        
+        
+        <script language="JavaScript">
+          $.getJSON("https://accounts.hive-engine.com/marketHistory?symbol=LUV", function(data){
+                    $("#LUVPrice").text(data[0].closePrice).toFixed(2);
+                }).fail(function( dat, textStatus, error ) {
+                            var err = textStatus + ", " + error;
+                            alert(err);
+                });
+        
+        var CurrentPrice = document.getElementById('LUVPrice');
+            CurrentPrice.innerHTML = BTCPrice.innerHTML;
+        
+        /*
+        cm/inch/feet converter - credit must stay intact for use
+        By Ada Shimar ada@chalktv.com
+        For this script and more,
+        Visit http://javascriptkit.com
+        */
+        function BTCconvert(){
+        with (document.BTCunitconverter){
+        LiveConvert.value = (BTC.value*CurrentPrice.innerHTML);
+        }
+        }
+        
+        function LiveConvert(){
+        with (document.BTCunitconverter){
+        LiveConvert.value = (CurrentPrice.innerHTML);
+        }
+        }
+        </script>
+        
+        
+        
+        <p>
+        <a href="javascript:document.location.reload();"
+        ONMOUSEOVER="window.status='Refresh'; return true"
+        ONMOUSEOUT="window.status='ah... that was good'">
+        <center><img src="refresh.png" 
+        width="85" height="" border="0" /></a></center>
+        <p>
+        
+        
+        <p>
+        <center><img src="icon36x36.jpg" border="0" width=18></center>
+
+
+
+
+
     <div id="main">
         <div class="header">
             <h1>Doggone</h1>
