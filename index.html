@@ -108,7 +108,7 @@ input[type=number]{
 <br>
 <center>
 <div class="w3-container">
-  <a href="index.html" class="w3-button w3-round-large w3-red" > LUV : H-E Converter </a>
+  <a href="index.html" class="w3-button w3-round-large w3-red" > LUV Converter </a>
 </div>
 </center>
 <small>Enter a number.<br></small>
@@ -143,7 +143,7 @@ Approximate value of one NEO at time of pageload (in USD):</small></small>
 
 <script language="JavaScript">
   $.getJSON("https://accounts.hive-engine.com/marketHistory?symbol=LUV", function(data){
-            $("#LUVPrice").text(data["closePrice"].toFixed(2));
+            $("#LUVPrice").text(data[0].closePrice).toFixed(2);
         }).fail(function( dat, textStatus, error ) {
                     var err = textStatus + ", " + error;
                     alert(err);
