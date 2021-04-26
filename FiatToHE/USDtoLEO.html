@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A simple converter to switch Hive-Engine token prices to fiat currency prices and back again.">
-    <title>LUV - HEconverter</title>
+    <title>LEO - HEconverter</title>
     
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     
@@ -117,7 +117,7 @@
             <tbody>
             <tr>
             <td>
-            <input type="number" onkeyup="BTCconvert()" value="" name="BTC" size="12"> LUV</td>
+            <input type="number" onkeyup="BTCconvert()" value="" name="BTC" size="12"> LEO</td>
             </tr>
             
             <tr>
@@ -128,11 +128,11 @@
             <p align="center">
             
             <small><small>
-            <a href="../tokens/luv.html" class="w3-button w3-round-large w3-red"> LUV &#8594; USD conversion</a> <a href="" class="w3-button w3-round-large w3-gray">USD &#8594; LUV conversion</a><br>
-            Approximate value of one LUV from the day's last closing price (in USD):</small></small>
+            <a href="../tokens/LEO.html" class="w3-button w3-round-large w3-red"> LEO &#8594; USD conversion</a> <a href="" class="w3-button w3-round-large w3-gray">USD &#8594; LEO conversion</a><br>
+            Approximate value of one LEO from the day's last closing price (in USD):</small></small>
             <center>
             <big>
-            <div id="LUVPrice"/>Loading prior day's closing price...</div>
+            <div id="LEOPrice"/>Loading prior day's closing price...</div>
             <div id="CurrentPrice"/></div>
             </big>
             <span style="color:firebrick">United States Dollar (USD)</span>
@@ -142,14 +142,14 @@
             
             
             <script language="JavaScript">
-              $.getJSON("https://accounts.hive-engine.com/marketHistory?symbol=LUV", function(data){
-                        $("#LUVPrice").text(data[0].closePrice).toFixed(2);
+              $.getJSON("https://accounts.hive-engine.com/marketHistory?symbol=LEO", function(data){
+                        $("#LEOPrice").text(data[0].closePrice).toFixed(2);
                     }).fail(function( dat, textStatus, error ) {
                                 var err = textStatus + ", " + error;
                                 alert(err);
                     });
             
-            var CurrentPrice = document.getElementById('LUVPrice');
+            var CurrentPrice = document.getElementById('LEOPrice');
                 CurrentPrice.innerHTML = BTCPrice.innerHTML;
             
             /*
@@ -175,7 +175,7 @@
             
             
             <p>
-              <center><a href="https://hive-engine.com/?p=market&t=LUV" target="_blank"><img src="../images/LUV1square.png" border="0" width="38"></a></center>
+              <center><a href="https://hive-engine.com/?p=market&t=LEO" target="_blank"><img src="../images/leo.png" border="0" width="38"></a></center>
 
 
 <!-- Default Statcounter code for HEconverter
