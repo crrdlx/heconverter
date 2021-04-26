@@ -6,94 +6,8 @@
     <title>HEconverter</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <style>
-    body {
-      background: #fefefe;
-      max-width: 750px;
-      margin: 40px auto;
-      padding: 0 22px;
-      font: 18px/1.5 -apple-system, BlinkMacSystemFont, /* MacOS and iOS */
-                   'avenir next', avenir, /* MacOS and iOS */
-                   'Segoe UI', /* Windows */
-                   'lucida grande', /* Older MacOS */
-                   'helvetica neue', helvetica, /* Older MacOS */
-                   'Fira Sans', /* Firefox OS */
-                   roboto, noto, /* Google stuff */
-                   'Droid Sans', /* Old Google stuff */
-                   cantarell, oxygen, ubuntu, /* Linux stuff */
-                   'franklin gothic medium', 'century gothic', /* Windows stuff */
-                   'Liberation Sans', /* Linux */
-                   sans-serif; /* Everything else */;
-      color: #222;
-    }
 
-supersize {  /* this is fancified text, but it can be named as anything */
-    font-style: normal;
-    font-size: 120%;
-    color: #ff8c00;
-    text-transform: uppercase;
-}
-      
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: #333333;
-  font-weight: bold;
-  line-height: 1.2;
-  margin-bottom: 1em;
-  margin-top: 2em;
-}
-h1 {
-  font-size: 2.2em;
-  text-align: center;
-}
-h2 {
-  font-size: 1.8em;
-  border-bottom: solid 0.1rem firebrick;
-}
-h3 {
-  font-size: 1.5em;
-}
-h4 {
-  font-size: 1.3em;
-  text-decoration: underline;
-}
-h5 {
-  font-size: 1.2em;
-  font-style: italic;
-}
-h6 {
-  font-size: 1.1em;
-  margin-bottom: 0.5rem;
-  color: #555555;
-}
-    img.centered {
-    display: block;
-    margin-left: auto;
-    margin-right: auto }
-}
-    }</style>
 
-<style>
-  table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-  }
-  
-  td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #dddddd;
-  }
-  </style>
   </head>
 
 <body>
@@ -101,6 +15,103 @@ h6 {
 <h1 id="this-is-the-doggone-minimal-website"><span style="color:red"> <strong>HEconverter</strong></span></h1>
 
 <p style="text-align:center">Convert Hive-Engine token prices to USD, or back.</p>
+<small>Enter a number.<br></small>
+<table border="0" cellpadding="0" cellspacing="0" width="">
+<form name="BTCunitconverter">
+<tbody>
+<tr>
+<td>
+<input type="number" onkeyup="BTCconvert()" value="" name="BTC" size="12"> LUV</td>
+</tr>
+
+<tr>
+<td><input type="number" onkeyup="LiveConvert()" value="$" name="LiveConvert" size="12"> &#8776; USD <small>at pageload</small></td>
+</tr>
+
+</tbody></form></table>
+<p align="left">
+
+<small><small>
+LUV &#8594; USD conversion | <a href="FiatToHE/USDtoLUV.htm">USD &#8594; LUV conversion</a><br>
+Approximate value of one LUV from the day's last closing price (in USD):</small></small>
+<center>
+<big>
+<div id="LUVPrice"/>Loading current price...</div>
+<div id="CurrentPrice"/></div>
+</big>
+<span style="color:firebrick">United States Dollar (USD)</span>
+<p>
+</center>
+<p>
+
+
+<script language="JavaScript">
+  $.getJSON("https://accounts.hive-engine.com/marketHistory?symbol=LUV", function(data){
+            $("#LUVPrice").text(data[0].closePrice).toFixed(2);
+        }).fail(function( dat, textStatus, error ) {
+                    var err = textStatus + ", " + error;
+                    alert(err);
+        });
+
+var CurrentPrice = document.getElementById('LUVPrice');
+    CurrentPrice.innerHTML = BTCPrice.innerHTML;
+
+/*
+cm/inch/feet converter - credit must stay intact for use
+By Ada Shimar ada@chalktv.com
+For this script and more,
+Visit http://javascriptkit.com
+*/
+function BTCconvert(){
+with (document.BTCunitconverter){
+LiveConvert.value = (BTC.value*CurrentPrice.innerHTML);
+}
+}
+
+function LiveConvert(){
+with (document.BTCunitconverter){
+LiveConvert.value = (CurrentPrice.innerHTML);
+}
+}
+</script>
+
+
+
+<p>
+<a href="javascript:document.location.reload();"
+ONMOUSEOVER="window.status='Refresh'; return true"
+ONMOUSEOUT="window.status='ah... that was good'">
+<center><img src="refresh.png" 
+width="85" height="" border="0" /></a></center>
+<p>
+
+
+<p>
+<center><img src="icon36x36.jpg" border="0" width=18></center>
+
+
+<!-- Default Statcounter code for HEconverter
+https://crrdlx.github.io/heconverter/index.html -->
+<script type="text/javascript">
+var sc_project=12518764; 
+var sc_invisible=1; 
+var sc_security="e447a16f"; 
+</script>
+<script type="text/javascript"
+src="https://www.statcounter.com/counter/counter.js"
+async></script>
+<noscript><div class="statcounter"><a title="Web Analytics"
+href="https://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="https://c.statcounter.com/12518764/0/e447a16f/1/"
+alt="Web Analytics"></a></div></noscript>
+<!-- End of Statcounter Code -->
+
+
+
+
+
+
 <p>The Doggone Minimal Website is a <u>single web page template</u> that was inspired by other, foul-mouthed websites. The template for this web page came from the "Perfect 'Foul-Mouthed' Website.com" who kindly gave permission for others to do with it whatever they pleased. So, I took out the foul-mouthed parts.</p>
 
 <h2 id="seriously-minimal">Some minimal things are needed to make this site perfect.</h2>
