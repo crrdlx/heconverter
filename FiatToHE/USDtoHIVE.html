@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A simple converter to switch Hive-Engine token prices to fiat currency prices and back again.">
-    <title>About - HEconverter</title>
+    <title>USDtoHIVE - HEconverter</title>
     
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     
@@ -107,27 +107,104 @@
             <br>
             <center>
               <div class="w3-container">
-                <a href="front.html" class="w3-button w3-round-large w3-red" >HE converter</a>
+                <a href="../front.html" class="w3-button w3-round-large w3-red" >HE converter</a>
               </div>
           </center>
+      <p align="center">
+      <small>
+        A tool to switch between Hive-Engine token prices, HIVE prices, and the USD price.
+      </small>
+      </p>
+      <p align="center">
+
 
       <p>
-    <small>
-        This tool tries to answer questions like:
-        <ol>
-            <li>If I had X amound of the ABC token, about how much would that be worth in USD?</li>
-            <li>If I spent $10 USD, about how many ABC tokens could I buy?</li>
-        </ol>
-    <p>
-      Ideally, this tool would use the <u>last</u> price (the most recently traded price), instead of using the prior day's <u>close</u> price. The data source comes from places like <a href="https://accounts.hive-engine.com/marketHistory?symbol=BEE" target="_blank">https://accounts.hive-engine.com/marketHistory?symbol=BEE</a>. Unfortunately, something like "lastPrice" is not listed here.
-    </p>
-    <p>
-      If anyone has ideas as to how utilize the last price, I'd love to hear them. Contact info <a href="https://peakd.com/about/@crrdlx/about" target="_blank">here</a>.
-    </p>
-    <p>
-        Source code: <a href="https://github.com/crrdlx/heconverter">https://github.com/crrdlx/heconverter</a>. PRs welcome. 
-    <p>
-    </small>
+
+
+        <p align="center">
+          <small>USD token &#8594; HIVE conversion<br></small>
+          <table border="0" cellpadding="0" cellspacing="0" width="" align="center">
+          <form name="BTCunitconverter">
+          <tbody>
+          <tr>
+          <td>
+          <input type="number" onkeyup="BTCconvert()" value="" name="BTC" size="12"> HIVE</td>
+          </tr>
+          
+          <tr>
+          <td><input type="number" onkeyup="EnteredFiatValueConvert()" value="" name="EnteredFiatValue" size="12"> <small><font color="red">enter a USD amount</fon></small></td>
+          </tr>
+          
+          </tbody></form></table>
+          <p align="center">
+ 
+        <small><small>
+          <a href="../front.html" class="w3-button w3-round-large w3-red">HIVE &#8594; USD conversion</a> <a href="" class="w3-button w3-round-large w3-gray">USD &#8594; HIVE conversion</a><br>
+          Approximate value of one HIVE at time of pageload (in USD):</small></small>
+          <center>
+          <big>
+          <div id="HIVEPrice"/>Loading current price...</div>
+          <div id="CurrentPrice"/></div>
+          </big>
+          <span style="color:firebrick">USD value of one HIVE</span>
+          <p>
+          </center>
+          <p>
+
+          
+          <script language="JavaScript">
+            $.getJSON("https://min-api.cryptocompare.com/data/price?fsym=HIVE&tsyms=USD", function(data){
+                      $("#HIVEPrice").text(data["USD"].toFixed(2));
+                  }).fail(function( dat, textStatus, error ) {
+                              var err = textStatus + ", " + error;
+                              alert(err);
+                  });
+          
+          var CurrentPrice = document.getElementById('HIVEPrice');
+              CurrentPrice.innerHTML = BTCPrice.innerHTML;
+          
+          /*
+          cm/inch/feet converter - credit must stay intact for use
+          By Ada Shimar ada@chalktv.com
+          For this script and more,
+          Visit http://javascriptkit.com
+          */
+          function EnteredFiatValueConvert(){
+          with (document.BTCunitconverter){
+          BTC.value = (EnteredFiatValue.value/CurrentPrice.innerHTML);
+          }
+          }
+          
+          
+          function LiveConvert(){
+          with (document.BTCunitconverter){
+          LiveConvert.value = (CurrentPrice.innerHTML);
+          }
+          }
+          </script>
+          
+          <a href="javascript:document.location.reload();"
+          ONMOUSEOVER="window.status='Refresh'; return true"
+          ONMOUSEOUT="window.status='ah... that was good'">
+          <center><img src="../images/refresh.png" 
+          width="85" height="" border="0" /></a></center>
+          <p>
+          
+          <p></p>
+
+
+
+
+
+  <small>
+    <a href="about.html">About</a>
+  <p>
+  <b>Disclaimer</b>: Use this tool at your own risk. It uses the last traded price to estimate values. Check the markets to research or trade.
+  </p>
+  <p>
+  Hive-Engine token markets: <a href="https://hive-engine.com/?p=market&t=BEE" target="_blank">Hive-Engine</a> | <a href="https://tribaldex.com/trade/BEE" target="_blank">TribalDex</a> | <a href="https://leodex.io/market/BEE" target="_blank">LeoDEX</a>
+  </small>
+
 
    <center><small>Made with <a href="https://peakd.com/@luvshares" target="_blank"><img src="images/LUV1square.png" border="0" width="28"></a> by <a href="https://peakd.com/@crrdlx" target="_blank">crrdlx</a></small></center>
   
