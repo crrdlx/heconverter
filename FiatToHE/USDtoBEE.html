@@ -166,7 +166,7 @@
                     });
             
             var USDCurrentPrice = document.getElementById('HIVEPrice');
-                USDCurrentPrice.innerHTML = FetchedHIVEPrice.innerHTML;
+                
 
             </script>
             <!-- End HIVE price fetch -->
@@ -192,7 +192,7 @@
             */
             function USDConvertFunction(){
             with (document.HEunitconverter){
-            HEtokenformbox.value = (USDConvert.value/CurrentPrice.innerHTML);
+            HEtokenformbox.value = (USDConvert.value/(CurrentPrice.innerHTML*USDCurrentPrice.innerHTML));
             EnteredHiveValue.value = (HEtokenformbox.value*CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
             hivevalueonehetoken.value = (CurrentPrice.innerHTML);
             usdvalueonehetoken.value = (CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);

@@ -135,7 +135,7 @@
             <p align="center">
             
             <small><small>
-            <a href="../tokens/luv.html" class="w3-button w3-round-large w3-red"> LUV &#8594; USD conversion</a> <a href="" class="w3-button w3-round-large w3-gray">USD &#8594; LUV conversion</a><br>
+            <a href="../tokens/LUV.html" class="w3-button w3-round-large w3-red"> LUV &#8594; USD conversion</a> <a href="" class="w3-button w3-round-large w3-gray">USD &#8594; LUV conversion</a><br>
             <a href="../HIVEtoHE/HIVEtoLUV.html" class="w3-button w3-round-large w3-red">HIVE &#8594; LUV conversion</a><br>
             Approximate value of one LUV based on last traded price (in HIVE):</small></small>
             <center>
@@ -166,7 +166,7 @@
                     });
             
             var USDCurrentPrice = document.getElementById('HIVEPrice');
-                USDCurrentPrice.innerHTML = FetchedHIVEPrice.innerHTML;
+                
 
             </script>
             <!-- End HIVE price fetch -->
@@ -192,7 +192,7 @@
             */
             function USDConvertFunction(){
             with (document.HEunitconverter){
-            HEtokenformbox.value = (USDConvert.value/CurrentPrice.innerHTML);
+            HEtokenformbox.value = (USDConvert.value/(CurrentPrice.innerHTML*USDCurrentPrice.innerHTML));
             EnteredHiveValue.value = (HEtokenformbox.value*CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
             hivevalueonehetoken.value = (CurrentPrice.innerHTML);
             usdvalueonehetoken.value = (CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
