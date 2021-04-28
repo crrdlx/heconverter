@@ -101,6 +101,46 @@
             } 
             </STYLE>
              <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+
+
+            <!-- Fetch HIVE price in USD -->
+            <script language="JavaScript">
+              $.getJSON("https://min-api.cryptocompare.com/data/price?fsym=HIVE&tsyms=USD", function(data){
+                        $("#HIVEPrice").text(data["USD"].toFixed(2));
+                    }).fail(function( dat, textStatus, error ) {
+                                var err = textStatus + ", " + error;
+                                alert(err);
+                    });
+
+            </script>
+            <!-- End HIVE price fetch -->
+
+            <!-- Fetch Hive-Engine token price -->
+            <script language="JavaScript">
+              $.getJSON("https://accounts.hive-engine.com/marketHistory?symbol=LUV", function(data){
+                        $("#LUVPrice").text(data[0].closePrice).toFixed(2);
+                    }).fail(function( dat, textStatus, error ) {
+                                var err = textStatus + ", " + error;
+                                alert(err);
+                    });
+
+            </script>
+            <!-- End Hive-Engine token fetch -->
+
+
+
+             <script type="text/javascript">
+              var HIVEPriceVariable = USDCurrentPrice;
+              var LUVPriceVariable = CurrentPrice;
+              var CurrentVariablePrice = "document.getElementById('LUVPrice')";
+               var CurrentPrice = document.getElementById('LUVPrice');
+              var USDCurrentVariablePrice = "document.getElementById('HIVEPrice')";
+               var USDCurrentPrice = document.getElementById('HIVEPrice');
+              var TokenCurrentUSDPrice = HIVEPriceVariable*LUVPriceVariable;
+               var TokenCurrentUSDPrice = CurrentPrice*USDCurrentPrice;
+
+            </script>
 </head>
 <body>
             <big>
@@ -122,11 +162,11 @@
             </tr>
             
             <tr>
-            <td><input type="number" onkeyup="LiveConvert()" value="$" name="LiveConvert" size="12"> &#8776; HIVE <small>at last close</small></td>
+            <td><input type="number" onkeyup="LiveConvert()" value="$" name="LiveConvert" size="12"> &#8776; <small>value in</small> HIVE</td>
             </tr>
 
             <tr>
-              <td><input type="number" onkeyup="USDConvert()" value="$" name="USDConvert" size="12"> &#8776; USD <small>at last close</small></td>
+              <td><input type="number" onkeyup="USDConvert()" value="$" name="USDConvert" size="12"> &#8776; <small>value in</small> USD</td>
               </tr>
             
             </tbody></form></table>
@@ -134,7 +174,7 @@
             
             <small><small>
             <a href="" class="w3-button w3-round-large w3-gray"> LUV &#8594; USD conversion</a> <a href="../FiatToHE/USDtoLUV.html" class="w3-button w3-round-large w3-red">USD &#8594; LUV conversion</a><br>
-            Approximate value of one LUV based on last traded price (in HIVE):</small></small>
+            Token values at the last trade price are shown below:</small></small>
             <center>
               <big>
             <div id="LUVPrice"/>Loading last traded price...</div>
@@ -146,13 +186,21 @@
             <center>
               <big>
             <div id="HIVEPrice"/>Loading last traded price...</div>
-            <div id="USDCurrentPrice"/></div>
+            <div id="TokenCurrentUSDPrice"/></div> <!-- I believe this line is not needed.-->
               </big>
             <span style="color:firebrick">USD value of one LUV</span>
             <p>
             </center>
             <p>
             
+            <div id="H-ETokenUSD"/>One LUV token is worth <script language="Javascript">
+              document.write(TokenCurrentUSDPrice.toFixed(4))
+            </script> USD.</div>
+
+
+
+
+
 
             <!-- Fetch HIVE price in USD -->
             <script language="JavaScript">
@@ -164,11 +212,15 @@
                     });
             
             var USDCurrentPrice = document.getElementById('HIVEPrice');
-                USDCurrentPrice.innerHTML = BTCPrice.innerHTML;
+                HIVEPriceVariable = USDCurrentPrice;
+                USDCurrentPrice.innerHTML = FetchedHIVEPrice.innerHTML;
+                TokenCurrentUSDPrice = document.getElementById('HIVEPrice');
+                TokenCurrentUSDPrice.innerHTML = document.getElementById('HIVEPrice')*document.getElementById('LUVPrice');
 
             </script>
             <!-- End HIVE price fetch -->
             
+            <!-- Fetch Hive-Engine token price -->
             <script language="JavaScript">
               $.getJSON("https://accounts.hive-engine.com/marketHistory?symbol=LUV", function(data){
                         $("#LUVPrice").text(data[0].closePrice).toFixed(2);
@@ -178,6 +230,7 @@
                     });
             
             var CurrentPrice = document.getElementById('LUVPrice');
+                LUVPriceVariable = CurrentPrice;
                 CurrentPrice.innerHTML = BTCPrice.innerHTML;
             
             /*
@@ -186,21 +239,12 @@
             For this script and more,
             Visit http://javascriptkit.com
             */
+            
+            
             function BTCconvert(){
             with (document.BTCunitconverter){
             LiveConvert.value = (BTC.value*CurrentPrice.innerHTML);
-            }
-            }
-            
-            function LiveConvert(){
-            with (document.BTCunitconverter){
-            LiveConvert.value = (CurrentPrice.innerHTML);
-            }
-            }
-
-            function USDConvert(){
-            with (document.BTCunitconverter){
-            LiveConvert.value = (HIVEPrice.innerHTML);
+            USDConvert.value = (BTC.value*CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
             }
             }
             </script>
@@ -212,7 +256,7 @@
             <center><img src="../images/refresh.png" 
             width="85" height="" border="0" /></a></center>
             <p>
-            
+            <!-- End Hive_Engine token price fetch -->
             
             <p>
               <center><a href="https://hive-engine.com/?p=market&t=LUV" target="_blank"><img src="../images/LUV1square.png" border="0" width="38"></a></center>
