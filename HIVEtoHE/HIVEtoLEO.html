@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A simple converter to switch Hive-Engine token prices to fiat currency prices and back again.">
-    <title>LEO - HEconverter</title>
+    <title>USDtoLUV - HEconverter</title>
     
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     
@@ -111,40 +111,39 @@
             </div>
             </center>
             <p align="center">
-            <small>LEO token &#8594; USD conversion<br></small>
-
+            <small>HIVE &#8594; LUV token conversion<br></small>
             <table border="0" cellpadding="0" cellspacing="0" width="" align="center">
             <form name="HEunitconverter">
             <tbody>
             <tr>
-              <td><input type="number" onkeyup="HEconvert()" value="" name="HEtoken" size="12"><small><font color="red"> enter a <big>LEO</big> amount</small></td>
+              <td><input type="number" onkeyup="HEconvert()" value="" name="HEtokenformbox" size="12"> &#8776;  LUV</td>
             </tr>
             <tr>
-              <td><input type="number" onkeyup="LiveConvert()" value="$" name="LiveConvert" size="12"> &#8776; HIVE</td>
+              <td><input type="number" onkeyup="EnteredHiveValueFunction()" value="" name="EnteredHiveValue" size="12"><small><font color="red"> $ enter a <big>HIVE</big> amount</small></td>
             </tr>
             <tr>
-              <td><input type="number" onkeyup="USDConvert()" value="$" name="USDConvert" size="12"> &#8776; USD</td>
+              <td><input type="number" onkeyup="USDConvertFunction()" value="" name="USDConvert" size="12"> &#8776; USD</td>
             </tr>
             <tr>
-              <td><input type="number" onload="hivevalueonehetoken()" value="$" name="hivevalueonehetoken" size="12"><small> value of 1 LEO (in HIVE)</small></td>
+              <td><input type="number" onload="hivevalueonehetoken()" value="$" name="hivevalueonehetoken" size="12"><small> value of 1 LUV (in HIVE)</small></td>
             </tr>
             <tr>
-              <td><input type="number" onload="usdvalueonehetoken()" value="$" name="usdvalueonehetoken" size="12"><small> value of 1 LEO (in USD)</small></td>
+              <td><input type="number" onload="usdvalueonehetoken()" value="$" name="usdvalueonehetoken" size="12"><small> value of 1 LUV (in USD)</small></td>
             </tr>
+            
             </tbody></form></table>
             <p align="center">
             
             <small><small>
-            <a href="" class="w3-button w3-round-large w3-gray"> LEO &#8594; USD conversion</a> <a href="../FiatToHE/USDtoLEO.html" class="w3-button w3-round-large w3-black">USD &#8594; LEO conversion</a>
-            <br>
-            <a href="../HIVEtoHE/HIVEtoLEO.html" class="w3-button w3-round-large w3-red">HIVE &#8594; LEO conversion</a><br>
-            All prices and values are based on the most recent trade.</small></small>
+            <a href="../tokens/luv.html" class="w3-button w3-round-large w3-red"> LUV &#8594; HIVE conversion</a> <a href="" class="w3-button w3-round-large w3-gray">HIVE &#8594; LUV conversion</a><br>
+            <a href="../FiatToHE/USDtoLUV.html" class="w3-button w3-round-large w3-black">USD &#8594; LUV conversion</a><br>
+            Approximate value of one LUV based on last traded price (in HIVE):</small></small>
             <center>
-              <big>
-            <div id="LEOPrice"/>Loading last traded price...</div>
+            <big>
+            <div id="LUVPrice"/>Loading last traded price...</div>
             <div id="CurrentPrice"/></div>
-              </big>
-            <span style="color:firebrick">HIVE value of one LEO</span>
+            </big>
+            <span style="color:firebrick">HIVE value of one LUV</span>
             <p>
             </center>
             <center>
@@ -156,7 +155,6 @@
             <p>
             </center>
             <p>
-            
 
             <!-- Fetch HIVE price in USD -->
             <script language="JavaScript">
@@ -173,17 +171,18 @@
             </script>
             <!-- End HIVE price fetch -->
             
+            
             <!-- Fetch Hive Engine token price and conversion engine -->
             <script language="JavaScript">
-              $.getJSON("https://accounts.hive-engine.com/marketHistory?symbol=LEO", function(data){
-                        $("#LEOPrice").text(data[0].closePrice).toFixed(2);
+              $.getJSON("https://accounts.hive-engine.com/marketHistory?symbol=LUV", function(data){
+                        $("#LUVPrice").text(data[0].closePrice).toFixed(2);
                     }).fail(function( dat, textStatus, error ) {
                                 var err = textStatus + ", " + error;
                                 alert(err);
                     });
             
-            var CurrentPrice = document.getElementById('LEOPrice');
-                CurrentPrice.innerHTML = HETPrice.innerHTML;
+            var CurrentPrice = document.getElementById('LUVPrice');
+                
             
             /*
             cm/inch/feet converter - credit must stay intact for use
@@ -191,52 +190,32 @@
             For this script and more,
             Visit http://javascriptkit.com
             */
-            function HEconvert(){
+            function EnteredHiveValueFunction(){
             with (document.HEunitconverter){
-            LiveConvert.value = (HEtoken.value*CurrentPrice.innerHTML);
-            USDConvert.value = (HEtoken.value*CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
+            HEtokenformbox.value = (EnteredHiveValue.value/CurrentPrice.innerHTML);
+            USDConvert.value = (HEtokenformbox.value*CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
             hivevalueonehetoken.value = (CurrentPrice.innerHTML);
             usdvalueonehetoken.value = (CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
             }
             }
+
             
-            function LiveConvert(){
-            with (document.HEunitconverter){
-            LiveConvert.value = (CurrentPrice.innerHTML);
-            }
-            }
 
-            function USDConvert(){
-            with (document.HEunitconverter){
-            LiveConvert.value = (HEtoken.value*CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
-            }
-            }
-
-            function hivevalueonehetoken(){
-            with (document.HEunitconverter){
-            hivevalueonehetoken.value = (CurrentPrice.innerHTML);
-            }
-            }
-
-            function usdvalueonehetoken(){
-            with (document.HEunitconverter){
-            usdvalueonehetoken.value = (CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
-            }
-            }
+            
             </script>
-            <!-- End Hive Engine token price and conversion engine -->
+            <!-- end Fetch Hive Engine token price and conversion engine -->
             
             <p>
             <a href="javascript:document.location.reload();"
             ONMOUSEOVER="window.status='Refresh'; return true"
-            ONMOUSEOUT="window.status='ahh...success'">
+            ONMOUSEOUT="window.status='ah... that was good'">
             <center><img src="../images/refresh.png" 
             width="85" height="" border="0" /></a></center>
             <p>
             
             
             <p>
-              <center><a href="https://hive-engine.com/?p=market&t=LEO" target="_blank"><img src="../images/LEO1square.png" border="0" width="38"></a></center>
+              <center><a href="https://hive-engine.com/?p=market&t=LUV" target="_blank"><img src="../images/LUV1square.png" border="0" width="38"></a></center>
 
 
 <!-- Default Statcounter code for HEconverter

@@ -111,17 +111,24 @@
             </div>
             </center>
             <p align="center">
-            <small>USD &#8594; HE token conversion<br></small>
+            <small>USD &#8594; BEE token conversion<br></small>
             <table border="0" cellpadding="0" cellspacing="0" width="" align="center">
-            <form name="BTCunitconverter">
+            <form name="HEunitconverter">
             <tbody>
             <tr>
-            <td>
-            <input type="number" onkeyup="BTCconvert()" value="" name="BTC" size="12"> BEE</td>
+              <td><input type="number" onkeyup="HEtokenconvert()" value="" name="HEtokenformbox" size="12"> &#8776; BEE</td>
             </tr>
-            
             <tr>
-            <td><input type="number" onkeyup="EnteredFiatValueConvert()" value="" name="EnteredFiatValue" size="12"><small><font color="red"> $ enter a HIVE amount</small></td>
+              <td><input type="number" onkeyup="EnteredHiveValueFunction()" value="" name="EnteredHiveValue" size="12"> &#8776; HIVE</td>
+            </tr>
+            <tr>
+              <td><input type="number" onkeyup="USDConvertFunction()" value="" name="USDConvert" size="12"> <font color="red"><small>enter a</small> USD <small>amount</font></small></td>
+            </tr>
+            <tr>
+              <td><input type="number" onload="hivevalueonehetoken()" value="$" name="hivevalueonehetoken" size="12"><small> value of 1 BEE (in HIVE)</small></td>
+            </tr>
+            <tr>
+              <td><input type="number" onload="usdvalueonehetoken()" value="$" name="usdvalueonehetoken" size="12"><small> value of 1 BEE (in USD)</small></td>
             </tr>
             
             </tbody></form></table>
@@ -129,6 +136,7 @@
             
             <small><small>
             <a href="../tokens/BEE.html" class="w3-button w3-round-large w3-red"> BEE &#8594; USD conversion</a> <a href="" class="w3-button w3-round-large w3-gray">USD &#8594; BEE conversion</a><br>
+            <a href="../HIVEtoHE/HIVEtoBEE.html" class="w3-button w3-round-large w3-red">HIVE &#8594; BEE conversion</a><br>
             Approximate value of one BEE based on last traded price (in HIVE):</small></small>
             <center>
             <big>
@@ -138,9 +146,33 @@
             <span style="color:firebrick">HIVE value of one BEE</span>
             <p>
             </center>
+            <center>
+              <big>
+            <div id="HIVEPrice"/>Loading last traded price...</div>
+            <div id="USDCurrentPrice"/></div>
+              </big>
+            <span style="color:firebrick">current HIVE price in USD</span>
             <p>
+            </center>
+            <p>
+
+            <!-- Fetch HIVE price in USD -->
+            <script language="JavaScript">
+              $.getJSON("https://min-api.cryptocompare.com/data/price?fsym=HIVE&tsyms=USD", function(data){
+                        $("#HIVEPrice").text(data["USD"].toFixed(2));
+                    }).fail(function( dat, textStatus, error ) {
+                                var err = textStatus + ", " + error;
+                                alert(err);
+                    });
+            
+            var USDCurrentPrice = document.getElementById('HIVEPrice');
+                USDCurrentPrice.innerHTML = FetchedHIVEPrice.innerHTML;
+
+            </script>
+            <!-- End HIVE price fetch -->
             
             
+            <!-- Fetch Hive Engine token price and conversion engine -->
             <script language="JavaScript">
               $.getJSON("https://accounts.hive-engine.com/marketHistory?symbol=BEE", function(data){
                         $("#BEEPrice").text(data[0].closePrice).toFixed(2);
@@ -150,7 +182,7 @@
                     });
             
             var CurrentPrice = document.getElementById('BEEPrice');
-                CurrentPrice.innerHTML = BTCPrice.innerHTML;
+                
             
             /*
             cm/inch/feet converter - credit must stay intact for use
@@ -158,12 +190,20 @@
             For this script and more,
             Visit http://javascriptkit.com
             */
-            function EnteredFiatValueConvert(){
-            with (document.BTCunitconverter){
-            BTC.value = (EnteredFiatValue.value/CurrentPrice.innerHTML);
+            function USDConvertFunction(){
+            with (document.HEunitconverter){
+            HEtokenformbox.value = (USDConvert.value/CurrentPrice.innerHTML);
+            EnteredHiveValue.value = (HEtokenformbox.value*CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
+            hivevalueonehetoken.value = (CurrentPrice.innerHTML);
+            usdvalueonehetoken.value = (CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
             }
             }
+
+            
+
+            
             </script>
+            <!-- end Fetch Hive Engine token price and conversion engine -->
             
             <p>
             <a href="javascript:document.location.reload();"
@@ -175,7 +215,7 @@
             
             
             <p>
-              <center><a href="https://hive-engine.com/?p=market&t=BEE" target="_blank"><img src="../images/bee.png" border="0" width="38"></a></center>
+              <center><a href="https://hive-engine.com/?p=market&t=BEE" target="_blank"><img src="../images/BEE1square.png" border="0" width="38"></a></center>
 
 
 <!-- Default Statcounter code for HEconverter
