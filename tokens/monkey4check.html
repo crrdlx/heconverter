@@ -114,27 +114,29 @@
             <small>HE token &#8594; USD conversion<br></small>
 
             <table border="0" cellpadding="0" cellspacing="0" width="" align="center">
-            <form name="BTCunitconverter">
+            <form name="HEunitconverter">
             <tbody>
             <tr>
-            <td>
-            <input type="number" onkeyup="BTCconvert()" value="" name="BTC" size="12"><small><font color="red"> enter a LUV amount</small></td>
+              <td><input type="number" onkeyup="HEconvert()" value="" name="HEtoken" size="12"><small><font color="red"> enter a LUV amount</small></td>
             </tr>
-            
             <tr>
-            <td><input type="number" onkeyup="LiveConvert()" value="$" name="LiveConvert" size="12"> &#8776; HIVE <small>at last close</small></td>
+              <td><input type="number" onkeyup="LiveConvert()" value="$" name="LiveConvert" size="12"> &#8776; HIVE <small>value</small></td>
             </tr>
-
             <tr>
-              <td><input type="number" onkeyup="USDConvert()" value="$" name="USDConvert" size="12"> &#8776; USD <small>at last close</small></td>
-              </tr>
-            
+              <td><input type="number" onkeyup="USDConvert()" value="$" name="USDConvert" size="12"> &#8776; USD <small>value</small></td>
+            </tr>
+            <tr>
+              <td><input type="number" onload="hivevalueonehetoken()" value="$" name="hivevalueonehetoken" size="12"><small> value in HIVE of 1 LUV</small></td>
+            </tr>
+            <tr>
+              <td><input type="number" onload="usdvalueonehetoken()" value="$" name="usdvalueonehetoken" size="12"><small> value in USD of 1 LUV</small></td>
+            </tr>
             </tbody></form></table>
             <p align="center">
             
             <small><small>
             <a href="" class="w3-button w3-round-large w3-gray"> LUV &#8594; USD conversion</a> <a href="../FiatToHE/USDtoLUV.html" class="w3-button w3-round-large w3-red">USD &#8594; LUV conversion</a><br>
-            Approximate value of one LUV based on last traded price (in HIVE):</small></small>
+            All prices and values are based on the most recent trade.</small></small>
             <center>
               <big>
             <div id="LUVPrice"/>Loading last traded price...</div>
@@ -148,7 +150,7 @@
             <div id="HIVEPrice"/>Loading last traded price...</div>
             <div id="USDCurrentPrice"/></div>
               </big>
-            <span style="color:firebrick">USD value of one LUV</span>
+            <span style="color:firebrick">current HIVE price in USD</span>
             <p>
             </center>
             <p>
@@ -178,7 +180,7 @@
                     });
             
             var CurrentPrice = document.getElementById('LUVPrice');
-                CurrentPrice.innerHTML = BTCPrice.innerHTML;
+                CurrentPrice.innerHTML = HETPrice.innerHTML;
             
             /*
             cm/inch/feet converter - credit must stay intact for use
@@ -186,22 +188,36 @@
             For this script and more,
             Visit http://javascriptkit.com
             */
-            function BTCconvert(){
-            with (document.BTCunitconverter){
-            LiveConvert.value = (BTC.value*CurrentPrice.innerHTML);
-            USDConvert.value = (BTC.value*CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
+            function HEconvert(){
+            with (document.HEunitconverter){
+            LiveConvert.value = (HEtoken.value*CurrentPrice.innerHTML);
+            USDConvert.value = (HEtoken.value*CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
+            hivevalueonehetoken.value = (CurrentPrice.innerHTML);
+            usdvalueonehetoken.value = (CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
             }
             }
             
             function LiveConvert(){
-            with (document.BTCunitconverter){
+            with (document.HEunitconverter){
             LiveConvert.value = (CurrentPrice.innerHTML);
             }
             }
 
             function USDConvert(){
-            with (document.BTCunitconverter){
-            LiveConvert.value = (BTC.value*CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
+            with (document.HEunitconverter){
+            LiveConvert.value = (HEtoken.value*CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
+            }
+            }
+
+            function hivevalueonehetoken(){
+            with (document.HEunitconverter){
+            hivevalueonehetoken.value = (CurrentPrice.innerHTML);
+            }
+            }
+
+            function usdvalueonehetoken(){
+            with (document.HEunitconverter){
+            usdvalueonehetoken.value = (CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
             }
             }
             </script>
@@ -209,7 +225,7 @@
             <p>
             <a href="javascript:document.location.reload();"
             ONMOUSEOVER="window.status='Refresh'; return true"
-            ONMOUSEOUT="window.status='ah... that was good'">
+            ONMOUSEOUT="window.status='ahh...success'">
             <center><img src="../images/refresh.png" 
             width="85" height="" border="0" /></a></center>
             <p>
