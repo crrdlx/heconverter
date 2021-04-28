@@ -113,10 +113,10 @@
             <p align="center">
             <small>USD &#8594; LUV token conversion<br></small>
             <table border="0" cellpadding="0" cellspacing="0" width="" align="center">
-            <form name="BTCunitconverter">
+            <form name="HEunitconverter">
             <tbody>
             <tr>
-              <td><input type="number" onkeyup="BTCconvert()" value="" name="BTC" size="12"> &#8776; LUV</td>
+              <td><input type="number" onkeyup="HEtokenconvert()" value="" name="HEtokenformbox" size="12"> &#8776; LUV</td>
             </tr>
             <tr>
               <td><input type="number" onkeyup="EnteredHiveValueFunction()" value="" name="EnteredHiveValue" size="12"> &#8776; HIVE</td>
@@ -182,7 +182,7 @@
                     });
             
             var CurrentPrice = document.getElementById('LUVPrice');
-                CurrentPrice.innerHTML = BTCPrice.innerHTML;
+                
             
             /*
             cm/inch/feet converter - credit must stay intact for use
@@ -191,9 +191,9 @@
             Visit http://javascriptkit.com
             */
             function USDConvertFunction(){
-            with (document.BTCunitconverter){
-            BTC.value = (USDConvert.value/CurrentPrice.innerHTML);
-            EnteredHiveValue.value = (BTC.value*CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
+            with (document.HEunitconverter){
+            HEtokenformbox.value = (USDConvert.value/CurrentPrice.innerHTML);
+            EnteredHiveValue.value = (HEtokenformbox.value*CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
             hivevalueonehetoken.value = (CurrentPrice.innerHTML);
             usdvalueonehetoken.value = (CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
             }
