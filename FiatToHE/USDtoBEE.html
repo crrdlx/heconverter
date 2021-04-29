@@ -151,7 +151,7 @@
             <div id="HIVEPrice"/>Loading last traded price...</div>
             <div id="USDCurrentPrice"/></div>
               </big>
-            <span style="color:firebrick">current HIVE price in USD</span>
+            <span style="color:firebrick">value of 1 HIVE in USD</span>
             <p>
             </center>
             <p>
@@ -193,7 +193,7 @@
             function USDConvertFunction(){
             with (document.HEunitconverter){
             HEtokenformbox.value = (USDConvert.value/(CurrentPrice.innerHTML*USDCurrentPrice.innerHTML));
-            /*EnteredHiveValue.value = (USDConvert.value*USDCurrentPrice.innerHTML);*/
+            EnteredHiveValue.value = (USDConvert.value/USDCurrentPrice.innerHTML);
             hivevalueonehetoken.value = (CurrentPrice.innerHTML);
             usdvalueonehetoken.value = (CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
             }
