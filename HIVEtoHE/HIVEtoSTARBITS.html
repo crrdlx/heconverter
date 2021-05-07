@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A simple converter to switch Hive-Engine token prices to fiat currency prices and back again.">
-    <title>USDtoLUV - HEconverter</title>
+    <title>USDtoSTARBITS - HEconverter</title>
     
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     
@@ -111,12 +111,12 @@
             </div>
             </center>
             <p align="center">
-            <small>HIVE &#8594; LUV token conversion<br></small>
+            <small>HIVE &#8594; STARBITS token conversion<br></small>
             <table border="0" cellpadding="0" cellspacing="0" width="" align="center">
             <form name="HEunitconverter">
             <tbody>
             <tr>
-              <td><input type="number" onkeyup="HEconvert()" value="" name="HEtokenformbox" size="12"> &#8776;  LUV</td>
+              <td><input type="number" onkeyup="HEconvert()" value="" name="HEtokenformbox" size="12"> &#8776;  STARBITS</td>
             </tr>
             <tr>
               <td><input type="number" onkeyup="EnteredHiveValueFunction()" value="" name="EnteredHiveValue" size="12"><small><font color="red"> $ enter a <big>HIVE</big> amount</small></td>
@@ -125,25 +125,25 @@
               <td><input type="number" onkeyup="USDConvertFunction()" value="" name="USDConvert" size="12"> &#8776; USD</td>
             </tr>
             <tr>
-              <td><input type="number" onload="hivevalueonehetoken()" value="$" name="hivevalueonehetoken" size="12"><small> value of 1 LUV (in HIVE)</small></td>
+              <td><input type="number" onload="hivevalueonehetoken()" value="$" name="hivevalueonehetoken" size="12"><small> value of 1 STARBITS (in HIVE)</small></td>
             </tr>
             <tr>
-              <td><input type="number" onload="usdvalueonehetoken()" value="$" name="usdvalueonehetoken" size="12"><small> value of 1 LUV (in USD)</small></td>
+              <td><input type="number" onload="usdvalueonehetoken()" value="$" name="usdvalueonehetoken" size="12"><small> value of 1 STARBITS (in USD)</small></td>
             </tr>
             
             </tbody></form></table>
             <p align="center">
             
             <small><small>
-            <a href="../tokens/LUV.html" class="w3-button w3-round-large w3-red"> LUV &#8594; HIVE conversion</a> <a href="" class="w3-button w3-round-large w3-gray">HIVE &#8594; LUV conversion</a><br>
-            <a href="../FiatToHE/USDtoLUV.html" class="w3-button w3-round-large w3-black">USD &#8594; LUV conversion</a><br>
-            Approximate value of one LUV based on last traded price (in HIVE):</small></small>
+            <a href="../tokens/STARBITS.html" class="w3-button w3-round-large w3-red"> STARBITS &#8594; HIVE conversion</a> <a href="" class="w3-button w3-round-large w3-gray">HIVE &#8594; STARBITS conversion</a><br>
+            <a href="../FiatToHE/USDtoSTARBITS.html" class="w3-button w3-round-large w3-black">USD &#8594; STARBITS conversion</a><br>
+            Approximate value of one STARBITS based on last traded price (in HIVE):</small></small>
             <center>
             <big>
-            <div id="LUVPrice"/>Loading last traded price...</div>
+            <div id="STARBITSPrice"/>Loading last traded price...</div>
             <div id="CurrentPrice"/></div>
             </big>
-            <span style="color:firebrick">HIVE value of one LUV</span>
+            <span style="color:firebrick">HIVE value of one STARBITS</span>
             <p>
             </center>
             <center>
@@ -174,14 +174,14 @@
             
             <!-- Fetch Hive Engine token price and conversion engine -->
             <script language="JavaScript">
-              $.getJSON("https://accounts.hive-engine.com/marketHistory?symbol=LUV", function(data){
-                        $("#LUVPrice").text(data[0].closePrice).toFixed(2);
+              $.getJSON("https://accounts.hive-engine.com/marketHistory?symbol=STARBITS", function(data){
+                        $("#STARBITSPrice").text(data[0].closePrice).toFixed(2);
                     }).fail(function( dat, textStatus, error ) {
                                 var err = textStatus + ", " + error;
                                 alert(err);
                     });
             
-            var CurrentPrice = document.getElementById('LUVPrice');
+            var CurrentPrice = document.getElementById('STARBITSPrice');
                 
             
             /*
@@ -215,7 +215,7 @@
             
             
             <p>
-              <center><a href="https://hive-engine.com/?p=market&t=LUV" target="_blank"><img src="../images/LUV.png" border="0" width="38"></a></center>
+              <center><a href="https://hive-engine.com/?p=market&t=STARBITS" target="_blank"><img src="../images/STARBITS.png" border="0" width="38"></a></center>
 
 
 <!-- Default Statcounter code for HEconverter

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A simple converter to switch Hive-Engine token prices to fiat currency prices and back again.">
-    <title>USDtoLUV - HEconverter</title>
+    <title>USDtoSPORTS - HEconverter</title>
     
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     
@@ -111,39 +111,39 @@
             </div>
             </center>
             <p align="center">
-            <small>HIVE &#8594; LUV token conversion<br></small>
+            <small>USD &#8594; SPORTS token conversion<br></small>
             <table border="0" cellpadding="0" cellspacing="0" width="" align="center">
             <form name="HEunitconverter">
             <tbody>
             <tr>
-              <td><input type="number" onkeyup="HEconvert()" value="" name="HEtokenformbox" size="12"> &#8776;  LUV</td>
+              <td><input type="number" onkeyup="HEtokenconvert()" value="" name="HEtokenformbox" size="12"> &#8776; SPORTS</td>
             </tr>
             <tr>
-              <td><input type="number" onkeyup="EnteredHiveValueFunction()" value="" name="EnteredHiveValue" size="12"><small><font color="red"> $ enter a <big>HIVE</big> amount</small></td>
+              <td><input type="number" onkeyup="EnteredHiveValueFunction()" value="" name="EnteredHiveValue" size="12"> &#8776; HIVE</td>
             </tr>
             <tr>
-              <td><input type="number" onkeyup="USDConvertFunction()" value="" name="USDConvert" size="12"> &#8776; USD</td>
+              <td><input type="number" onkeyup="USDConvertFunction()" value="" name="USDConvert" size="12"> <font color="red"><small>enter a</small> USD <small>amount</font></small></td>
             </tr>
             <tr>
-              <td><input type="number" onload="hivevalueonehetoken()" value="$" name="hivevalueonehetoken" size="12"><small> value of 1 LUV (in HIVE)</small></td>
+              <td><input type="number" onload="hivevalueonehetoken()" value="$" name="hivevalueonehetoken" size="12"><small> value of 1 SPORTS (in HIVE)</small></td>
             </tr>
             <tr>
-              <td><input type="number" onload="usdvalueonehetoken()" value="$" name="usdvalueonehetoken" size="12"><small> value of 1 LUV (in USD)</small></td>
+              <td><input type="number" onload="usdvalueonehetoken()" value="$" name="usdvalueonehetoken" size="12"><small> value of 1 SPORTS (in USD)</small></td>
             </tr>
             
             </tbody></form></table>
             <p align="center">
             
             <small><small>
-            <a href="../tokens/LUV.html" class="w3-button w3-round-large w3-red"> LUV &#8594; HIVE conversion</a> <a href="" class="w3-button w3-round-large w3-gray">HIVE &#8594; LUV conversion</a><br>
-            <a href="../FiatToHE/USDtoLUV.html" class="w3-button w3-round-large w3-black">USD &#8594; LUV conversion</a><br>
-            Approximate value of one LUV based on last traded price (in HIVE):</small></small>
+            <a href="../tokens/SPORTS.html" class="w3-button w3-round-large w3-red"> SPORTS &#8594; USD conversion</a> <a href="" class="w3-button w3-round-large w3-gray">USD &#8594; SPORTS conversion</a><br>
+            <a href="../HIVEtoHE/HIVEtoSPORTS.html" class="w3-button w3-round-large w3-red">HIVE &#8594; SPORTS conversion</a><br>
+            Approximate value of one SPORTS based on last traded price (in HIVE):</small></small>
             <center>
             <big>
-            <div id="LUVPrice"/>Loading last traded price...</div>
+            <div id="SPORTSPrice"/>Loading last traded price...</div>
             <div id="CurrentPrice"/></div>
             </big>
-            <span style="color:firebrick">HIVE value of one LUV</span>
+            <span style="color:firebrick">HIVE value of one SPORTS</span>
             <p>
             </center>
             <center>
@@ -166,7 +166,7 @@
                     });
             
             var USDCurrentPrice = document.getElementById('HIVEPrice');
-                USDCurrentPrice.innerHTML = FetchedHIVEPrice.innerHTML;
+                
 
             </script>
             <!-- End HIVE price fetch -->
@@ -174,14 +174,14 @@
             
             <!-- Fetch Hive Engine token price and conversion engine -->
             <script language="JavaScript">
-              $.getJSON("https://accounts.hive-engine.com/marketHistory?symbol=LUV", function(data){
-                        $("#LUVPrice").text(data[0].closePrice).toFixed(2);
+              $.getJSON("https://accounts.hive-engine.com/marketHistory?symbol=SPORTS", function(data){
+                        $("#SPORTSPrice").text(data[0].closePrice).toFixed(2);
                     }).fail(function( dat, textStatus, error ) {
                                 var err = textStatus + ", " + error;
                                 alert(err);
                     });
             
-            var CurrentPrice = document.getElementById('LUVPrice');
+            var CurrentPrice = document.getElementById('SPORTSPrice');
                 
             
             /*
@@ -190,10 +190,10 @@
             For this script and more,
             Visit http://javascriptkit.com
             */
-            function EnteredHiveValueFunction(){
+            function USDConvertFunction(){
             with (document.HEunitconverter){
-            HEtokenformbox.value = (EnteredHiveValue.value/CurrentPrice.innerHTML);
-            USDConvert.value = (HEtokenformbox.value*CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
+            HEtokenformbox.value = (USDConvert.value/(CurrentPrice.innerHTML*USDCurrentPrice.innerHTML));
+            EnteredHiveValue.value = (USDConvert.value/USDCurrentPrice.innerHTML);
             hivevalueonehetoken.value = (CurrentPrice.innerHTML);
             usdvalueonehetoken.value = (CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
             }
@@ -215,7 +215,7 @@
             
             
             <p>
-              <center><a href="https://hive-engine.com/?p=market&t=LUV" target="_blank"><img src="../images/LUV.png" border="0" width="38"></a></center>
+              <center><a href="https://hive-engine.com/?p=market&t=SPORTS" target="_blank"><img src="../images/SPORTS.png" border="0" width="38"></a></center>
 
 
 <!-- Default Statcounter code for HEconverter
