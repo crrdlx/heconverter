@@ -1,4 +1,4 @@
-RewriteEngine off
+RewriteEngine on
 RewriteCond %{HTTP_HOST} ^heconverter\.netlify\.app$ [OR]
 RewriteCond %{HTTP_HOST} ^www\.heconverter\.netlify\.app$
-RewriteRule ^/?$ "https\:\/\/heconverter\.netlify\.app\/" [R=301,L]
+RewriteRule ^/?$ "http\:\/\/heconverter\.netlify\.app\/" [R=301,L]
