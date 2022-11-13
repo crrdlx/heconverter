@@ -174,7 +174,7 @@
             
             <!-- Fetch Hive Engine token price and conversion engine -->
             <script language="JavaScript">
-              $.getJSON("https://accounts.hive-engine.com/marketHistory?symbol=MEME", function(data){
+              $.getJSON("https://history.hive-engine.com/marketHistory?symbol=MEME", function(data){
                         $("#MEMEPrice").text(data[0].closePrice).toFixed(2);
                     }).fail(function( dat, textStatus, error ) {
                                 var err = textStatus + ", " + error;
