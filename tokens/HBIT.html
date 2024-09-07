@@ -126,6 +126,9 @@
               <td><input type="number" onkeyup="USDConvert()" value="$" name="USDConvert" size="12"> &#8776; USD $</td>
             </tr>
             <tr>
+              <td><input type="number" onkeyup="SatsConvert()" value="$" name="SatsConvert" size="12"> &#8776; sats &#x30B7</td>
+            </tr>
+            <tr>
               <td><input type="number" onload="hivevalueonehetoken()" value="$" name="hivevalueonehetoken" size="12"><small> value of 1 HBIT (in HIVE)</small></td>
             </tr>
             <tr>
@@ -211,7 +214,7 @@
             
             function SatsConvert(){
             with (document.HEunitconverter){
-            LiveConvert.value = (HEtoken.value*CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
+            SatsConvert.value = (HEtoken.value*CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
             }
             }
 
@@ -250,7 +253,7 @@
 
 
 <!-- Default Statcounter code for HEconverter
-https://crrdlx.mywebcommunity.org/heconverter/index.html -->
+https://heconverter.on.fleek.co/ -->
 <script type="text/javascript">
     var sc_project=12518764; 
     var sc_invisible=1; 
