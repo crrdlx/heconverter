@@ -175,9 +175,23 @@
             
             var USDCurrentPrice = document.getElementById('HIVEPrice');
                 USDCurrentPrice.innerHTML = FetchedHIVEPrice.innerHTML;
-
             </script>
             <!-- End HIVE price fetch -->
+
+            <!-- Fetch BTC price in USD -->
+            <script language="JavaScript">
+              $.getJSON("https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD", function(data){
+                $("#BTCPrice").text(data["USD"].toFixed(2));
+                    }).fail(function( dat, textStatus, error ) {
+                        var err = textStatus + ", " + error;
+                        alert(err);
+                    });
+    
+            var CurrentPrice = document.getElementById('BTCPrice');
+                CurrentPrice.innerHTML = BTCPrice.innerHTML;
+            </script>
+            <!-- End BTC price fetch -->
+
             
             <!-- Fetch Hive Engine token price and conversion engine -->
             <script language="JavaScript">

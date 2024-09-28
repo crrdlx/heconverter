@@ -126,16 +126,10 @@
               <td><input type="number" onkeyup="USDConvert()" value="$" name="USDConvert" size="12"> &#8776; USD $</td>
             </tr>
             <tr>
-              <td><input type="number" onkeyup="SatsConvert()" value="$" name="SatsConvert" size="12"> &#8776; sats &#x30B7</td>
-            </tr>
-            <tr>
               <td><input type="number" onload="hivevalueonehetoken()" value="$" name="hivevalueonehetoken" size="12"><small> value of 1 HBIT (in HIVE)</small></td>
             </tr>
             <tr>
               <td><input type="number" onload="usdvalueonehetoken()" value="$" name="usdvalueonehetoken" size="12"><small> value of 1 HBIT (in USD)</small></td>
-            </tr>
-            <tr>
-              <td><input type="number" onkeyup="SatsConvert()" value="$" name="SatsConvert" size="12"><small> value of 1 HBIT (in sats) &#x30B7</small></td>
             </tr>
             </tbody></form></table>
             <p align="center">
@@ -211,10 +205,10 @@
             LiveConvert.value = (CurrentPrice.innerHTML);
             }
             }
-            
-            function SatsConvert(){
+
+            function USDConvert(){
             with (document.HEunitconverter){
-            SatsConvert.value = (HEtoken.value*CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
+            LiveConvert.value = (HEtoken.value*CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
             }
             }
 
@@ -229,13 +223,6 @@
             usdvalueonehetoken.value = (CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
             }
             }
-            // sats convert goes below
-            function USDConvert(){
-            with (document.HEunitconverter){
-            LiveConvert.value = (HEtoken.value*CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
-            }
-            }
-            // sats convert above
             </script>
             <!-- End Hive Engine token price and conversion engine -->
             
@@ -253,7 +240,7 @@
 
 
 <!-- Default Statcounter code for HEconverter
-https://heconverter.on.fleek.co/ -->
+https://crrdlx.mywebcommunity.org/heconverter/index.html -->
 <script type="text/javascript">
     var sc_project=12518764; 
     var sc_invisible=1; 
