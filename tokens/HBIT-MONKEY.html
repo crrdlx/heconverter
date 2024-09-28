@@ -126,10 +126,16 @@
               <td><input type="number" onkeyup="USDConvert()" value="$" name="USDConvert" size="12"> &#8776; USD $</td>
             </tr>
             <tr>
+              <td><input type="number" onkeyup="SatsConvert()" value="$" name="SatsConvert" size="12"> &#8776; sats &#x30B7</td>
+            </tr>
+            <tr>
               <td><input type="number" onload="hivevalueonehetoken()" value="$" name="hivevalueonehetoken" size="12"><small> value of 1 HBIT (in HIVE)</small></td>
             </tr>
             <tr>
               <td><input type="number" onload="usdvalueonehetoken()" value="$" name="usdvalueonehetoken" size="12"><small> value of 1 HBIT (in USD)</small></td>
+            </tr>
+            <tr>
+              <td><input type="number" onkeyup="SatsConvert()" value="$" name="SatsConvert" size="12"><small> value of 1 HBIT (in sats) &#x30B7</small></td>
             </tr>
             </tbody></form></table>
             <p align="center">
@@ -169,9 +175,23 @@
             
             var USDCurrentPrice = document.getElementById('HIVEPrice');
                 USDCurrentPrice.innerHTML = FetchedHIVEPrice.innerHTML;
-
             </script>
             <!-- End HIVE price fetch -->
+
+            <!-- Fetch BTC price in USD -->
+            <script language="JavaScript">
+              $.getJSON("https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD", function(data){
+                $("#BTCPrice").text(data["USD"].toFixed(2));
+                    }).fail(function( dat, textStatus, error ) {
+                        var err = textStatus + ", " + error;
+                        alert(err);
+                    });
+    
+            var CurrentPrice = document.getElementById('BTCPrice');
+                CurrentPrice.innerHTML = BTCPrice.innerHTML;
+            </script>
+            <!-- End BTC price fetch -->
+
             
             <!-- Fetch Hive Engine token price and conversion engine -->
             <script language="JavaScript">
@@ -205,10 +225,10 @@
             LiveConvert.value = (CurrentPrice.innerHTML);
             }
             }
-
-            function USDConvert(){
+            
+            function SatsConvert(){
             with (document.HEunitconverter){
-            LiveConvert.value = (HEtoken.value*CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
+            SatsConvert.value = (HEtoken.value*CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
             }
             }
 
@@ -223,6 +243,13 @@
             usdvalueonehetoken.value = (CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
             }
             }
+            // sats convert goes below
+            function USDConvert(){
+            with (document.HEunitconverter){
+            LiveConvert.value = (HEtoken.value*CurrentPrice.innerHTML*USDCurrentPrice.innerHTML);
+            }
+            }
+            // sats convert above
             </script>
             <!-- End Hive Engine token price and conversion engine -->
             
@@ -240,7 +267,7 @@
 
 
 <!-- Default Statcounter code for HEconverter
-https://crrdlx.mywebcommunity.org/heconverter/index.html -->
+https://heconverter.on.fleek.co/ -->
 <script type="text/javascript">
     var sc_project=12518764; 
     var sc_invisible=1; 
