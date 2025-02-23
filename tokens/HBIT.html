@@ -50,8 +50,8 @@
                 <tbody>
                     <tr>
                         <td>
-                            <input type="number" onkeyup="HEconvert()" value="" name="HEtoken" size="12">
-                            <small><font color="red"> enter a <big>HBIT</big> amount</font></small>
+                            <input type="number" onkeyup="HEconvert()" value="1" name="HEtoken" size="12">
+                            <small><font color="red"> enter an <big>HBIT</big> amount</font></small>
                         </td>
                     </tr>
                     <tr>
@@ -82,10 +82,10 @@
         </small></small>
         <center>
             <span style="color:#8B4513">Value of 1 HBIT in:</span><br>
-            <span style="color:#8B4513"> <!-- Dark orange -->
+            <span style="color:#8B4513">
                 <span id="hbitHiveValue"></span> HIVE <span style="color:black">|</span>
                 <span id="hbitUsdValue"></span> USD <span style="color:black">|</span>
-                <span id="hbitSatsValue"></span> sats
+                <span id="hbitSatsValue"></span> sats シ
             </span>
         </center>
         <p></p>
@@ -95,59 +95,30 @@
         </center>
     </p>
 
-    <!-- Updated JavaScript -->
     <script language="JavaScript">
         let hivePriceUSD = 0;
         let btcPriceUSD = 0;
         let hbitPriceHIVE = 0;
 
-        $(document).ready(function() {
-            // Fetch HIVE/USD price
-            $.getJSON("https://min-api.cryptocompare.com/data/price?fsym=HIVE&tsyms=USD", function(data) {
-                hivePriceUSD = data.USD;
-                $("#HIVEPrice").text(hivePriceUSD.toFixed(2));
-                updateStaticValues();
-            }).fail(function(jqXHR, textStatus, error) {
-                alert("Error fetching HIVE price: " + textStatus + ", " + error);
-            });
-
-            // Fetch BTC/USD price
-            $.getJSON("https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD", function(data) {
-                btcPriceUSD = data.USD;
-                updateStaticValues();
-            }).fail(function(jqXHR, textStatus, error) {
-                alert("Error fetching BTC price: " + textStatus + ", " + error);
-            });
-
-            // Fetch HBIT/HIVE price
-            $.getJSON("https://accounts.hive-engine.com/marketHistory?symbol=HBIT", function(data) {
-                hbitPriceHIVE = parseFloat(data[0].closePrice);
-                $("#HBITPrice").text(hbitPriceHIVE.toFixed(6));
-                updateStaticValues();
-            }).fail(function(jqXHR, textStatus, error) {
-                alert("Error fetching HBIT price: " + textStatus + ", " + error);
-            });
-        });
-
+        // Function to convert HBIT amount and populate table fields
         function HEconvert() {
             const form = document.HEunitconverter;
             const hbitAmount = parseFloat(form.HEtoken.value) || 0;
 
-            // Dynamic conversions
             const hiveValue = hbitAmount * hbitPriceHIVE;
-            form.LiveConvert.value = hiveValue.toFixed(6) || '';
+            form.LiveConvert.value = hiveValue ? hiveValue.toFixed(6) : '';
 
             const usdValue = hiveValue * hivePriceUSD;
-            form.USDConvert.value = usdValue.toFixed(6) || '';
+            form.USDConvert.value = usdValue ? usdValue.toFixed(6) : '';
 
             const btcValue = usdValue / btcPriceUSD;
             const satsValue = btcValue * 100000000;
-            form.satsConvert.value = satsValue.toFixed(2) || '';
+            form.satsConvert.value = satsValue ? satsValue.toFixed(2) : '';
         }
 
+        // Function to update static "Value of 1 HBIT" display
         function updateStaticValues() {
             if (hbitPriceHIVE && hivePriceUSD && btcPriceUSD) {
-                // Static values for 1 HBIT
                 const hiveValueOneHBIT = hbitPriceHIVE;
                 $("#hbitHiveValue").text(hiveValueOneHBIT.toFixed(6));
 
@@ -157,8 +128,39 @@
                 const btcValueOneHBIT = usdValueOneHBIT / btcPriceUSD;
                 const satsValueOneHBIT = btcValueOneHBIT * 100000000;
                 $("#hbitSatsValue").text(satsValueOneHBIT.toFixed(2));
+
+                // Trigger initial conversion for pre-populated value
+                HEconvert();
             }
         }
+
+        $(document).ready(function() {
+            // Fetch HIVE/USD price
+            $.getJSON("https://min-api.cryptocompare.com/data/price?fsym=HIVE&tsyms=USD", function(data) {
+                hivePriceUSD = data.USD;
+                $("#HIVEPrice").text(hivePriceUSD.toFixed(2));
+                updateStaticValues(); // Update after each fetch
+            }).fail(function(jqXHR, textStatus, error) {
+                alert("Error fetching HIVE price: " + textStatus + ", " + error);
+                $("#HIVEPrice").text("Error loading HIVE price");
+            });
+
+            // Fetch BTC/USD price
+            $.getJSON("https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD", function(data) {
+                btcPriceUSD = data.USD;
+                updateStaticValues(); // Update after each fetch
+            }).fail(function(jqXHR, textStatus, error) {
+                alert("Error fetching BTC price: " + textStatus + ", " + error);
+            });
+
+            // Fetch HBIT/HIVE price
+            $.getJSON("https://accounts.hive-engine.com/marketHistory?symbol=HBIT", function(data) {
+                hbitPriceHIVE = parseFloat(data[0].closePrice);
+                updateStaticValues(); // Update after each fetch
+            }).fail(function(jqXHR, textStatus, error) {
+                alert("Error fetching HBIT price: " + textStatus + ", " + error);
+            });
+        });
     </script>
 
     <a href="javascript:document.location.reload();" ONMOUSEOVER="window.status='Refresh'; return true" ONMOUSEOUT="window.status='ahh...success'">
