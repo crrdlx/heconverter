@@ -120,9 +120,9 @@
         <p align="center">
           <a href="tokens/AFIT.html" class="w3-button w3-margin-bottom w3-round-large w3-black">AFIT</a> 
           <a href="tokens/ALIVE.html" class="w3-button w3-margin-bottom w3-round-large w3-black">ALIVE</a> 
+          <a href="tokens/BBH.html" class="w3-button w3-margin-bottom w3-round-large w3-black">BBH</a>
           <a href="tokens/BEE.html" class="w3-button w3-margin-bottom w3-round-large w3-black">BEE</a> 
           <a href="tokens/BEER.html" class="w3-button w3-margin-bottom w3-round-large w3-black">BEER</a> 
-          <a href="tokens/BLURT.html" class="w3-button w3-margin-bottom w3-round-large w3-black">BLURT</a> 
           <a href="tokens/BRO.html" class="w3-button w3-margin-bottom w3-round-large w3-black">BRO</a> 
           <a href="tokens/CENT.html" class="w3-button w3-margin-bottom w3-round-large w3-black">CENT</a> 
           <a href="tokens/CINE.html" class="w3-button w3-margin-bottom w3-round-large w3-black">CINE</a> 
@@ -150,7 +150,6 @@
           <a href="tokens/STARBITS.html" class="w3-button w3-margin-bottom w3-round-large w3-black">STARBITS</a>
           <a href="tokens/TAN.html" class="w3-button w3-margin-bottom w3-round-large w3-black">TAN</a> 
           <a href="tokens/UTOPIS.html" class="w3-button w3-margin-bottom w3-round-large w3-black">UTOPIS</a>
-          <a href="tokens/VYB.html" class="w3-button w3-margin-bottom w3-round-large w3-black">VYB</a>
           <a href="tokens/WINEX.html" class="w3-button w3-margin-bottom w3-round-large w3-black">WINEX</a>
 
       <p>
@@ -167,12 +166,8 @@
           </tr>
           
           <tr>
-          <td><input type="number" onkeyup="LiveConvert()" value="$" name="LiveConvert" size="12"> &#8776; USD $ <small>value</small></td>
+          <td><input type="number" onkeyup="LiveConvert()" value="$" name="LiveConvert" size="12"> &#8776; USD <small>value</small></td>
           </tr>
-
-          <tr>
-            <td><input type="number" onkeyup="SatsConvert()" value="$" name="SatsConvert" size="12"> &#8776; sats &#x30B7 <small>value</small></td>
-            </tr>
           
           </tbody></form></table>
           <p align="center">
@@ -214,18 +209,12 @@
           }
           }
           
+          
           function LiveConvert(){
           with (document.BTCunitconverter){
           LiveConvert.value = (CurrentPrice.innerHTML);
           }
           }
-        
-          function SatsConvert(){
-          with (document.BTCunitconverter){
-          LiveConvert.value = (CurrentPrice.innerHTML);
-          }
-          }
-        
           </script>
           
           <a href="javascript:document.location.reload();"
@@ -270,7 +259,7 @@
    <p>
   
 <!-- Default Statcounter code for HEconverter
-https://crrdlx.mywebcommunity.org/heconverter/index.html -->
+https://heconvert.on-fleek.app -->
   <script type="text/javascript">
       var sc_project=12518764; 
       var sc_invisible=1; 
