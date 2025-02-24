@@ -14,7 +14,7 @@
         <!--[if gt IE 8]><!-->
             <link rel="stylesheet" href="css/layouts/side-menu.css">
         <!--<![endif]-->
-<STYLE>
+    <style>
             html {
               font-size: medium;
             }
@@ -99,17 +99,17 @@
             input[type=number]{
                 width: 135px;
             } 
-            </STYLE>
-             <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
 <body>
-            <big>
-            <br>
-            <center>
-            <div class="w3-container">
-              <a href="../index.html" class="w3-button w3-margin-bottom  w3-round-large w3-red">HE converter</a>
-            </div>
-            </center>
+    <big>
+    <br>
+    <center>
+    <div class="w3-container">
+      <a href="../index.html" class="w3-button w3-margin-bottom  w3-round-large w3-red">HE converter</a>
+    </div>
+    </center>
 
     <!-- Your existing HTML content up to the table remains unchanged -->
     <p align="center">
@@ -124,20 +124,24 @@
                 </tbody>
             </form>
         </table>
-<p></p>
+    <p></p>
         <center><small><small>
-            <a href="../tokens/HBIT.html" class="w3-button w3-margin-bottom  w3-round-large w3-black"> HBIT &#8594; USD conversion</a> <a href="" class="w3-button w3-margin-bottom  w3-round-large w3-gray">USD &#8594; HBIT conversion</a> <a href="../HIVEtoHE/HIVEtoHBIT.html" class="w3-button w3-margin-bottom  w3-round-large w3-black">HIVE &#8594; HBIT conversion</a>
+            <a href="../tokens/HBIT.html" class="w3-button w3-margin-bottom  w3-round-large w3-black"> HBIT → USD conversion</a> <a href="" class="w3-button w3-margin-bottom  w3-round-large w3-gray">USD → HBIT conversion</a> <a href="../HIVEtoHE/HIVEtoHBIT.html" class="w3-button w3-margin-bottom  w3-round-large w3-black">HIVE → HBIT conversion</a> <a href="../SATStoHE/SATStoHBIT.html" class="w3-button w3-margin-bottom w3-round-large w3-black">Sats → HBIT conversion</a>
             </small></small></center><br>
 
-        <div style="text-align: center;">
-            <div id="HBITPrice">Loading HBIT price...</div>
-            <small style="color: firebrick;">HIVE value of one HBIT</small>
-            <div id="CurrentPrice"></div>
-            <div id="HIVEPrice">Loading HIVE price...</div>
-            <small style="color: firebrick;">USD value of one HIVE</small>
-            <div id="USDCurrentPrice"></div>
-        </div>
-
+            <center>
+              <span style="color:#8B4513">Value of 1 HBIT in:</span><br>
+              <span style="color:#8B4513">
+                  <span id="hbitHiveValue"></span> HIVE <span style="color:black">|</span>
+                  <span id="hbitUsdValue"></span> USD <span style="color:black">|</span>
+                  <span id="hbitSatsValue"></span> sats シ
+              </span>
+          </center>
+          <p></p>
+        <center>
+            <big><div id="HIVEPrice">Loading last traded price...</div></big>
+            <span style="color:firebrick">Value of 1 HIVE in USD</span>
+        </center>
         <p style="text-align: center;">
             <a href="javascript:document.location.reload();" onmouseover="window.status='Refresh'; return true" onmouseout="window.status=''">
                 <img src="../images/refresh.png" width="45" border="0" alt="Refresh">
@@ -146,68 +150,74 @@
 
         <p></p>
         
-        <!-- Rest of your HTML remains unchanged up to the script section -->
-    
         <!-- Updated Script Section -->
         <script>
             let hiveUSDPrice = 0;
             let hbitHivePrice = 0;
             let btcUSDPrice = 0;
-    
+
             const hivePricePromise = $.getJSON("https://min-api.cryptocompare.com/data/price?fsym=HIVE&tsyms=USD")
                 .done(data => {
                     hiveUSDPrice = data["USD"];
                     $("#HIVEPrice").text(hiveUSDPrice.toFixed(2));
                 })
                 .fail((jqXHR, textStatus, error) => alert("Failed to fetch HIVE price: " + textStatus + ", " + error));
-    
+
             const hbitPricePromise = $.getJSON("https://history.hive-engine.com/marketHistory?symbol=HBIT")
                 .done(data => {
                     hbitHivePrice = parseFloat(data[0].closePrice);
-                    $("#HBITPrice").text(hbitHivePrice.toFixed(4));
                 })
                 .fail((jqXHR, textStatus, error) => alert("Failed to fetch HBIT price: " + textStatus + ", " + error));
-    
+
             const btcPricePromise = $.getJSON("https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD")
                 .done(data => {
                     btcUSDPrice = data["USD"];
                 })
                 .fail((jqXHR, textStatus, error) => alert("Failed to fetch BTC price: " + textStatus + ", " + error));
-    
+
             Promise.all([hivePricePromise, hbitPricePromise, btcPricePromise]).then(() => {
-                USDConvertFunction();
+                updateStaticValues(); // Update "Value of 1 HBIT in" section
+                USDConvertFunction(); // Initial conversion for the form
             }).catch(() => console.error("One or more API calls failed."));
-    
+
             function USDConvertFunction() {
                 const form = document.HEunitconverter;
                 const usdValue = parseFloat(form.USDConvert.value) || 0;
                 const hiveValue = usdValue / hiveUSDPrice;
                 const hbitValue = hiveValue / hbitHivePrice;
                 const satoshiValue = (usdValue / btcUSDPrice) * 100000000; // 1 BTC = 100M sats
-    
+
                 form.HEtokenformbox.value = hbitValue.toFixed(2);
                 form.EnteredHiveValue.value = hiveValue.toFixed(2);
                 form.SatoshiValue.value = Math.round(satoshiValue); // No decimals for sats
                 $("#CurrentPrice").text(`${hbitValue.toFixed(2)} HBIT ≈ $${usdValue.toFixed(2)} USD`);
                 $("#USDCurrentPrice").text(`${hiveValue.toFixed(2)} HIVE ≈ $${usdValue.toFixed(2)} USD`);
             }
+
+            // Function to update static "Value of 1 HBIT" display
+            function updateStaticValues() {
+                if (hbitHivePrice && hiveUSDPrice && btcUSDPrice) {
+                    const hiveValueOneHBIT = hbitHivePrice; // 1 HBIT in HIVE
+                    $("#hbitHiveValue").text(hiveValueOneHBIT.toFixed(6));
+
+                    const usdValueOneHBIT = hiveValueOneHBIT * hiveUSDPrice; // 1 HBIT in USD
+                    $("#hbitUsdValue").text(usdValueOneHBIT.toFixed(6));
+
+                    const btcValueOneHBIT = usdValueOneHBIT / btcUSDPrice; // 1 HBIT in BTC
+                    const satsValueOneHBIT = btcValueOneHBIT * 100000000; // 1 HBIT in sats
+                    $("#hbitSatsValue").text(satsValueOneHBIT.toFixed(2));
+                }
+            }
         </script>
-        <!-- Rest of your HTML (refresh button, statcounter, etc.) remains unchanged -->
-    
-            
+        
+        <p>
+          <center><a href="https://hive-engine.com/?p=market&t=HBIT" target="_blank"><img src="../images/HBIT.png" border="0" width="38"></a></center>
 
-            
-            
-            <p>
-              <center><a href="https://hive-engine.com/?p=market&t=HBIT" target="_blank"><img src="../images/HBIT.png" border="0" width="38"></a></center>
-
-
-<!-- Default Statcounter code for HEconverter
-https://crrdlx.mywebcommunity.org/heconverter/index.html -->
-<script type="text/javascript">
-    var sc_project=12518764; 
-    var sc_invisible=1; 
-    var sc_security="e447a16f"; 
+    <!-- Default Statcounter code for HEconverter -->
+    <script type="text/javascript">
+        var sc_project=12518764; 
+        var sc_invisible=1; 
+        var sc_security="e447a16f"; 
     </script>
     <script type="text/javascript"
     src="https://www.statcounter.com/counter/counter.js"

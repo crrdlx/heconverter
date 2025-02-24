@@ -44,29 +44,29 @@
         </div>
     </center>
     <p align="center">
-        <small>HBIT token → USD conversion<br></small>
+        <small>Sats → HBIT token conversion<br></small>
         <table border="0" cellpadding="0" cellspacing="0" align="center">
             <form name="HEunitconverter">
                 <tbody>
                     <tr>
                         <td>
-                            <input type="number" onkeyup="HEconvert()" value="1" name="HEtoken" size="12">
-                            <small><font color="red"> enter an <big>HBIT</big> amount</font></small>
+                            <input type="number" onkeyup="HEconvert()" value="" name="HEtoken" size="12"> ≈ HBIT
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <input type="number" value="" name="LiveConvert" size="12" readonly> ≈ HIVE
+                            <input type="number" onkeyup="EnteredHiveValueFunction()" value="" name="LiveConvert" size="12"> ≈ HIVE
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <input type="number" value="" name="USDConvert" size="12" readonly> ≈ USD $
+                            <input type="number" onkeyup="USDConvertFunction()" value="" name="USDConvert" size="12"> ≈ USD $
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <input type="number" value="" name="satsConvert" size="12" readonly> ≈ sats シ
+                            <input type="number" onkeyup="SatoshiConvertFunction()" value="1" name="satsConvert" size="12">
+                            <small><font color="red"><big> enter a sats amount</big></font></small>
                         </td>
                     </tr>
                 </tbody>
@@ -75,9 +75,10 @@
     </p>
     <p align="center">
         <small><small>
-            <a href="" class="w3-button w3-margin-bottom w3-round-large w3-gray"> HBIT → USD conversion</a>
+            <a href="../tokens/HBIT.html" class="w3-button w3-margin-bottom w3-round-large w3-black"> HBIT → USD conversion</a>
             <a href="../FiatToHE/USDtoHBIT.html" class="w3-button w3-margin-bottom w3-round-large w3-black">USD → HBIT conversion</a>
-            <a href="../HIVEtoHE/HIVEtoHBIT.html" class="w3-button w3-margin-bottom w3-round-large w3-black">HIVE → HBIT conversion</a> <a href="../SATStoHE/SATStoHBIT.html" class="w3-button w3-margin-bottom w3-round-large w3-black">Sats → HBIT conversion</a><br>
+            <a href="../HIVEtoHE/HIVEtoHBIT.html" class="w3-button w3-margin-bottom w3-round-large w3-black">HIVE → HBIT conversion</a>
+            <a href="../SATStoHE/SATStoHBIT.html" class="w3-button w3-margin-bottom w3-round-large w3-gray">Sats → HBIT conversion</a><br>
         </small></small>
         <center>
             <span style="color:#8B4513">Value of 1 HBIT in:</span><br>
@@ -99,7 +100,7 @@
         let btcPriceUSD = 0;
         let hbitPriceHIVE = 0;
 
-        // Function to convert HBIT amount and populate table fields
+        // Function to convert HBIT amount
         function HEconvert() {
             const form = document.HEunitconverter;
             const hbitAmount = parseFloat(form.HEtoken.value) || 0;
@@ -112,7 +113,55 @@
 
             const btcValue = usdValue / btcPriceUSD;
             const satsValue = btcValue * 100000000;
-            form.satsConvert.value = satsValue ? satsValue.toFixed(2) : '';
+            form.satsConvert.value = satsValue ? Math.round(satsValue) : '';
+        }
+
+        // Function to convert Sats amount (primary input)
+        function SatoshiConvertFunction() {
+            const form = document.HEunitconverter;
+            const satsAmount = parseFloat(form.satsConvert.value) || 0;
+
+            const btcValue = satsAmount / 100000000;
+            const usdValue = btcValue * btcPriceUSD;
+            form.USDConvert.value = usdValue ? usdValue.toFixed(6) : '';
+
+            const hiveValue = usdValue / hivePriceUSD;
+            form.LiveConvert.value = hiveValue ? hiveValue.toFixed(6) : '';
+
+            const hbitValue = hiveValue / hbitPriceHIVE;
+            form.HEtoken.value = hbitValue ? hbitValue.toFixed(6) : '';
+        }
+
+        // Function to convert HIVE amount
+        function EnteredHiveValueFunction() {
+            const form = document.HEunitconverter;
+            const hiveValue = parseFloat(form.LiveConvert.value) || 0;
+
+            const hbitValue = hiveValue / hbitPriceHIVE;
+            form.HEtoken.value = hbitValue ? hbitValue.toFixed(6) : '';
+
+            const usdValue = hiveValue * hivePriceUSD;
+            form.USDConvert.value = usdValue ? usdValue.toFixed(6) : '';
+
+            const btcValue = usdValue / btcPriceUSD;
+            const satsValue = btcValue * 100000000;
+            form.satsConvert.value = satsValue ? Math.round(satsValue) : '';
+        }
+
+        // Function to convert USD amount
+        function USDConvertFunction() {
+            const form = document.HEunitconverter;
+            const usdValue = parseFloat(form.USDConvert.value) || 0;
+
+            const hiveValue = usdValue / hivePriceUSD;
+            form.LiveConvert.value = hiveValue ? hiveValue.toFixed(6) : '';
+
+            const hbitValue = hiveValue / hbitPriceHIVE;
+            form.HEtoken.value = hbitValue ? hbitValue.toFixed(6) : '';
+
+            const btcValue = usdValue / btcPriceUSD;
+            const satsValue = btcValue * 100000000;
+            form.satsConvert.value = satsValue ? Math.round(satsValue) : '';
         }
 
         // Function to update static "Value of 1 HBIT" display
@@ -128,8 +177,8 @@
                 const satsValueOneHBIT = btcValueOneHBIT * 100000000;
                 $("#hbitSatsValue").text(satsValueOneHBIT.toFixed(2));
 
-                // Trigger initial conversion for pre-populated value
-                HEconvert();
+                // Trigger initial conversion for pre-populated sats value
+                SatoshiConvertFunction();
             }
         }
 
