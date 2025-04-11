@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A simple converter to switch Hive-Engine token prices to fiat currency prices and back again.">
+    <title>USDtoHIVE - HEconverter</title>
+    
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="../css/layouts/side-menu.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    
+    <style>
+        html { font-size: medium; }
+        body {
+            background-color: #f6f6f6;
+            color: #330;
+            font-family: verdana, georgia, times, serif;
+            padding: 0 1em;
+            max-width: 80em;
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+        a { color: #1e6b8c; text-decoration: none; transition: all 0.3s linear 0.1s; }
+        a:visited { color: #6f32ad; }
+        a:hover { background: #b6cff9; text-decoration: underline; }
+        a:active { background-color: #427fed; color: white; }
+        h1, h2, h3, h4, h5, h6 { color: black; font-weight: bold; line-height: 1.2; margin: 2em 0 1em; }
+        h1 { font-size: 2.2em; text-align: center; }
+        h2 { font-size: 1.8em; border-bottom: solid 0.1rem #703820; }
+        h3 { font-size: 1.5em; }
+        h4 { font-size: 1.3em; text-decoration: underline; }
+        h5 { font-size: 1.2em; font-style: italic; }
+        h6 { font-size: 1.1em; margin-bottom: 0.5rem; }
+        pre, code, xmp { font-family: courier; font-size: 1rem; line-height: 1.4; white-space: pre-wrap; }
+        input[type=number] { width: 135px; }
+    </style>
+</head>
+<body>
+    <big><br>
+    <center>
+        <div class="w3-container">
+            <a href="../index.html" class="w3-button w3-margin-bottom w3-round-large w3-red">HE converter</a>
+        </div>
+    </center>
+    <p align="center">
+        <small>A tool to switch between Hive-Engine token prices, HIVE prices, and the USD price.</small>
+    </p>
+
+    <!-- Updated Conversion Section with Reordered Table -->
+    <p align="center">
+        <small>USD → HIVE conversion<br></small>
+        <table border="0" cellpadding="0" cellspacing="0" align="center">
+            <form name="BTCunitconverter">
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="number" value="" name="hiveValue" size="12" readonly> ≈ HIVE <small>value</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="number" onkeyup="convertUSD()" value="1" name="usdAmount" size="12">
+                            <small><font color="red"> enter a USD amount</font></small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="number" value="" name="satsValue" size="12" readonly> ≈ sats シ <small>value</small>
+                        </td>
+                    </tr>
+                </tbody>
+            </form>
+        </table>
+    </p>
+    <p align="center">
+        <small><small>
+            <a href="../index.html" class="w3-button w3-margin-bottom w3-round-large w3-black">HIVE → USD conversion</a>
+            <a href="" class="w3-button w3-margin-bottom w3-round-large w3-gray">USD → HIVE conversion</a><br>
+            Approximate value of one HIVE (in USD):
+        </small></small>
+        <center>
+            <big><div id="HIVEPrice">Loading current price...</div></big>
+            <span style="color:firebrick">current HIVE price in USD</span>
+        </center>
+    </p>
+
+    <!-- Updated JavaScript -->
+    <script language="JavaScript">
+        let hivePriceUSD = 0;
+        let btcPriceUSD = 0;
+
+        $(document).ready(function() {
+            $.getJSON("https://min-api.cryptocompare.com/data/price?fsym=HIVE&tsyms=USD", function(data) {
+                hivePriceUSD = data.USD;
+                $("#HIVEPrice").text(hivePriceUSD.toFixed(2));
+                if (btcPriceUSD) convertUSD(); // Trigger conversion only when both prices are ready
+            }).fail(function(jqXHR, textStatus, error) {
+                alert("Error fetching HIVE price: " + textStatus + ", " + error);
+            });
+
+            $.getJSON("https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD", function(data) {
+                btcPriceUSD = data.USD;
+                if (hivePriceUSD) convertUSD(); // Trigger conversion only when both prices are ready
+            }).fail(function(jqXHR, textStatus, error) {
+                alert("Error fetching BTC price: " + textStatus + ", " + error);
+            });
+        });
+
+        function convertUSD() {
+            const form = document.BTCunitconverter;
+            const usdAmount = parseFloat(form.usdAmount.value) || 0;
+
+            const hiveValue = usdAmount / hivePriceUSD;
+            form.hiveValue.value = hiveValue.toFixed(2) || '';
+
+            const btcValue = usdAmount / btcPriceUSD;
+            const satsValue = btcValue * 100000000;
+            form.satsValue.value = Math.round(satsValue) || '';
+        }
+    </script>
+
+    <a href="javascript:document.location.reload();" ONMOUSEOVER="window.status='Refresh'; return true" ONMOUSEOUT="window.status='ah... that was good'">
+        <center><img src="../images/refresh.png" width="85" height="" border="0" alt="Refresh"></center>
+    </a>
+
+    <small>
+        <a href="../about.html">About</a>
+        <p><b>Disclaimer</b>: Use this tool at your own risk. It uses the last traded price to estimate values. Check the markets to research or trade.</p>
+        <p>Hive-Engine token markets: <a href="https://hive-engine.com/?p=market&t=BEE" target="_blank">Hive-Engine</a> | <a href="https://tribaldex.com/trade/BEE" target="_blank">TribalDex</a> | <a href="https://leodex.io/market/BEE" target="_blank">LeoDEX</a></p>
+    </small>
+    <center><small>Made with <a href="https://peakd.com/@luvshares" target="_blank"><img src="../images/luv.png" border="0" width="28"></a> by <a href="https://peakd.com/@crrdlx" target="_blank">crrdlx</a></small></center>
+
+    <!-- Statcounter code -->
+    <script type="text/javascript">
+        var sc_project=12518764;
+        var sc_invisible=1;
+        var sc_security="e447a16f";
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript><div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img class="statcounter" src="https://c.statcounter.com/12518764/0/e447a16f/1/" alt="Web Analytics"></a></div></noscript>
+</body>
+</html>
