@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert between Hive, Hive-Engine tokens, USD, satoshis, and view Hive Tip Tokens values.">
+    <title>HEconverter + Hive Tip Tokens</title>
+    
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="css/layouts/side-menu.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    
+    <style>
+        html { font-size: medium; }
+        body {
+            background-color: #f6f6f6;
+            color: #330;
+            font-family: verdana, georgia, times, serif;
+            padding: 0 1em;
+            max-width: 80em;
+            margin: 0 auto;
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+        a { color: #1e6b8c; text-decoration: none; transition: all 0.3s linear 0.1s; }
+        a:visited { color: #6f32ad; }
+        a:hover { background: #b6cff9; text-decoration: underline; }
+        a:active { background-color: #427fed; color: white; }
+        h1, h2, h3 { color: black; font-weight: bold; line-height: 1.2; margin: 2em 0 1em; }
+        h1 { font-size: 2.2em; text-align: center; }
+        h2 { font-size: 1.8em; border-bottom: solid 0.1rem #703820; }
+        h3 { font-size: 1.5em; }
+        input[type=text] { width: 135px; }
+        select { margin: 0.5em; padding: 0.2em; }
+        .form-container { max-width: 350px; margin: 0 auto; text-align: left; }
+        .form-container td { padding: 0.3em 0; }
+        .price-info { text-align: center; margin: 0.5em 0; }
+        .price-info div, .price-info span { display: block; margin: 0 auto; }
+        .price-block { text-align: center; margin: 0.5em 0; }
+        .price-block div, .price-block span { display: block; margin: 0 auto; }
+        #tokenDisplay { width: 150px; display: inline-block; vertical-align: middle; }
+        /* Hive Tip Tokens styles */
+        #calcTable { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        #calcTable th, #calcTable td { padding: 8px; text-align: center; }
+        #calcTable th { background-color: #ddd; }
+        #calcTable tr:nth-child(even) { background-color: #dddddd; }
+        #calcTable td:first-child { text-align: left; } /* Left-align token names */
+    </style>
+</head>
+<body onload="init()">
+    <!-- HEconverter Section -->
+    <big><br>
+    <center>
+        <div class="w3-container">
+            <a href="index2.html" class="w3-button w3-round-large w3-red">HE Converter</a>
+        </div>
+    </center>
+    <p align="center">
+        <small>Choose a token, enter a number.</small>
+    </p>
+
+    <div style="text-align: center;">
+        <select id="token" onchange="updatePrices()">
+            <option value="HIVE" selected>HIVE</option>
+            <option value="AFIT">AFIT</option>
+            <option value="ALIVE">ALIVE</option>
+            <option value="BBH">BBH</option>
+            <option value="BEE">BEE</option>
+            <option value="BEER">BEER</option>
+            <option value="BLURT">BLURT</option>
+            <option value="BRO">BRO</option>
+            <option value="CENT">CENT</option>
+            <option value="CINE">CINE</option>
+            <option value="CROP">CROP</option>
+            <option value="CTP">CTP</option>
+            <option value="DEC">DEC</option>
+            <option value="ENGAGE">ENGAGE</option>
+            <option value="HBIT">HBIT</option>
+            <option value="HELIOS">HELIOS</option>
+            <option value="HIQS">HIQS</option>
+            <option value="INDEX">INDEX</option>
+            <option value="LASSECASH">LASSECASH</option>
+            <option value="LEO">LEO</option>
+            <option value="LIST">LIST</option>
+            <option value="LOH">LOH</option>
+            <option value="LUV">LUV</option>
+            <option value="MEME">MEME</option>
+            <option value="ONEUP">ONEUP</option>
+            <option value="PAL">PAL</option>
+            <option value="PIZZA">PIZZA</option>
+            <option value="POB">POB</option>
+            <option value="POSH">POSH</option>
+            <option value="SIM">SIM</option>
+            <option value="SPORTS">SPORTS</option>
+            <option value="STARBITS">STARBITS</option>
+            <option value="TAN">TAN</option>
+            <option value="UTOPIS">UTOPIS</option>
+            <option value="VYB">VYB</option>
+            <option value="WINEX">WINEX</option>
+        </select>
+    </div>
+
+    <div class="form-container">
+        <table border="0" cellpadding="0" cellspacing="0">
+            <form name="unitconverter">
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="text" inputmode="numeric" onkeyup="tokenConvert()" value="1" name="tokenValue" size="12">
+                            <span id="tokenDisplay">HIVE</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" inputmode="numeric" onkeyup="usdConvert()" value="" name="usdValue" size="12"> ≈ $ USD
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" inputmode="numeric" onkeyup="satsConvert()" value="" name="satsValue" size="12"> ≈ シ sats
+                        </td>
+                    </tr>
+                </tbody>
+            </form>
+        </table>
+    </div>
+
+    <p class="price-info">
+        <small><small>
+            Approximate value of one <span id="tokenNamePrice">HIVE</span> at pageload (in USD):
+        </small></small>
+    </p>
+    <div class="price-info"><big>
+        <div id="tokenPrice">Loading current price...</div>
+    </big></div>
+    <div class="price-info"><span style="color:firebrick">United States Dollar (USD)</span></div>
+    <p class="price-info">
+        <div id="HIVEPriceTop">Loading last traded price in USD...</div>
+        <span style="color:firebrick">value of 1 HIVE in USD</span>
+        <div id="BTCPriceTop">Loading last traded price in USD...</div>
+        <span style="color:darkorange">value of 1 BTC in USD</span>
+    </p>
+    <p align="center">
+        <a href="javascript:document.location.reload();" onmouseover="window.status='Refresh'; return true" onmouseout="window.status='ah... that was good'">
+            <img src="images/refresh.png" width="45" border="0" alt="Refresh" />
+        </a>
+    </p>
+
+    <!-- Hive Tip Tokens Section -->
+    <h2 id="H-E-tip-tokens"><strong>Hive-Engine </strong><span style="color: rgb(231, 2, 2)">Tip Tokens</span></h2>
+
+    <center>
+        <form name="hivetiptokensform">
+            <table id="calcTable">
+                <thead>
+                    <tr>
+                        <th>Token</th>
+                        <th>Value of 1 in HIVE</th>
+                        <th>Tip size</th>
+                        <th>Tip in HIVE</th>
+                        <th>Tip in USD</th>
+                        <th>Tip in sats シ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a href="https://tribaldex.com/trade/AFIT" target="_blank">📈</a> <a href="https://actifit.io" target="_blank">AFIT</a></td>
+                        <td><div id="AFITPrice">Loading last traded price...</div></td>
+                        <td>10</td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://tribaldex.com/trade/ALIVE" target="_blank">📈</a> <a href="https://www.wearealiveand.social/" target="_blank">ALIVE</a></td>
+                        <td><div id="ALIVEPrice">Loading last traded price...</div></td>
+                        <td>0.1</td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://tribaldex.com/trade/BBH" target="_blank">📈</a> <a href="https://peakd.com/c/hive-112281/created" target="_blank">BBH</a></td>
+                        <td><div id="BBHPrice">Loading last traded price...</div></td>
+                        <td>1</td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://tribaldex.com/trade/BEER" target="_blank">📈</a> <a href="https://beersaturday.com/" target="_blank">BEER</a></td>
+                        <td><div id="BEERPrice">Loading last traded price...</div></td>
+                        <td>0.1</td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://tribaldex.com/trade/BLAQ" target="_blank">📈</a> <a href="https://wusang.vercel.app" target="_blank">BLAQ</a></td>
+                        <td><div id="BLAQPrice">Loading last traded price...</div></td>
+                        <td>1</td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://tribaldex.com/trade/BLAQGOLD" target="_blank">📈</a> <a href="https://wusang.vercel.app" target="_blank">BLAQGOLD</a></td>
+                        <td><div id="BLAQGOLDPrice">Loading last traded price...</div></td>
+                        <td>1</td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://tribaldex.com/trade/BLAQEMRLD" target="_blank">📈</a> <a href="https://wusang.vercel.app" target="_blank">BLAQEMRLD</a></td>
+                        <td><div id="BLAQEMRLDPrice">Loading last traded price...</div></td>
+                        <td>1</td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://tribaldex.com/trade/CTP" target="_blank">📈</a> <a href="https://www.CTPtalk.com" target="_blank">+CTP</a></td>
+                        <td><div id="CTPPrice">Loading last traded price...</div></td>
+                        <td>0.1</td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://tribaldex.com/trade/ENGAGE" target="_blank">📈</a> <a href="https://peakd.com/@abh12345" target="_blank">*ENGAGE</a></td>
+                        <td><div id="ENGAGEPrice">Loading last traded price...</div></td>
+                        <td>10</td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://tribaldex.com/trade/HBIT" target="_blank">📈</a> <a href="https://peakd.com/hive/@hivebits/about" target="_blank">HBIT</a></td>
+                        <td><div id="HBITPrice">Loading last traded price...</div></td>
+                        <td>1</td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://tribaldex.com/trade/HUG" target="_blank">📈</a> <a href="https://peakd.com/hive-139531/@hannes-stoffel/introducing-hugbot" target="_blank">HUG</a></td>
+                        <td><div id="HUGPrice">Loading last traded price...</div></td>
+                        <td>1</td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://tribaldex.com/trade/IDD" target="_blank">📈</a> <a href="https://peakd.com/hive-167922/@indeedly/introducing-the-public-beta-of" target="_blank">IDD</a></td>
+                        <td><div id="IDDPrice">Loading last traded price...</div></td>
+                        <td>1</td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://tribaldex.com/trade/LOH" target="_blank">📈</a> <a href="https://peakd.com/hive-124452/@hive-124452/introducing-the-lady" target="_blank">LOH</a></td>
+                        <td><div id="LOHPrice">Loading last traded price...</div></td>
+                        <td>0.1</td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://tribaldex.com/trade/LOLZ" target="_blank">📈</a> <a href="https://lolztoken.com/" target="_blank">LOLZ</a></td>
+                        <td><div id="LOLZPrice">Loading last traded price...</div></td>
+                        <td>1</td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://tribaldex.com/trade/LUV" target="_blank">📈</a> <a href="https://peakd.com/@luvshares/about" target="_blank">LUV</a></td>
+                        <td><div id="LUVPrice">Loading last traded price...</div></td>
+                        <td>1</td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://tribaldex.com/trade/PGM" target="_blank">📈</a> <a href="https://discord/gg/KCvuNTEjWw" target="_blank">PGM</a></td>
+                        <td><div id="PGMPrice">Loading last traded price...</div></td>
+                        <td>0.1</td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://tribaldex.com/trade/PIMP" target="_blank">📈</a> <a href="https://peakd.com/c/hive-111011/" target="_blank">PIMP</a></td>
+                        <td><div id="PIMPPrice">Loading last traded price...</div></td>
+                        <td>1</td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://tribaldex.com/trade/PIZZA" target="_blank">📈</a> <a href="https://hive.pizza/" target="_blank">PIZZA</a></td>
+                        <td><div id="PIZZAPrice">Loading last traded price...</div></td>
+                        <td>0.1</td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://tribaldex.com/trade/VSC" target="_blank">📈</a> <a href="https://hive.blog/trending/hive-132248" target="_blank">VSC</a></td>
+                        <td><div id="VSCPrice">Loading last traded price...</div></td>
+                        <td>0.1</td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://tribaldex.com/trade/SLOTHBUZZ" target="_blank">📈</a> <a href="https://hive.blog/@slothbuzz" target="_blank">SLOTHBUZZ</a></td>
+                        <td><div id="SLOTHBUZZPrice">Loading last traded price...</div></td>
+                        <td>0.1</td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://tribaldex.com/trade/WINEX" target="_blank">📈</a> <a href="https://peakd.com/@winex" target="_blank">WINEX</a></td>
+                        <td><div id="WINEXPrice">Loading last traded price...</div></td>
+                        <td>0.1</td><td></td><td></td><td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </center>
+
+    <center><small><small>+CTP is tipped between 0.1 and 0.5 CTP, depending on the staked amount. | *ENGAGE may not have a standard tip quantity, but 10 ENGAGE is a normally tipped amount.</small></small></center><br>
+
+    <p class="price-block">
+        <div id="HIVEPrice">Loading last traded price in USD...</div>
+        <span style="color:firebrick">value of 1 HIVE in USD</span>
+        <div id="BTCPrice">Loading last traded price in USD...</div>
+        <span style="color:darkorange">value of 1 BTC in USD</span>
+    </p>
+
+    <p align="center">
+        <a href="javascript:document.location.reload();" onmouseover="window.status='Refresh'; return true" onmouseout="window.status='ah... that was good'">
+            <img src="images/refresh.png" width="45" border="0" alt="Refresh" />
+        </a>
+    </p>
+
+    <!-- Footer -->
+    <small>
+        <center>
+            <a href="about.html">About</a> | Want a Hive-Engine token listed here? Contact <a href="https://hive.blog/@crrdlx/about">crrdlx</a> Links: <a href="https://linktr.ee/crrdlx">linktr.ee/crrdlx</a>
+            <p><b>Disclaimer</b>: Use this tool at your own risk. It uses the last traded price to estimate values. Check the markets to research or trade.</p>
+            <p>Hive-Engine token markets: <a href="https://hive-engine.com/?p=market&t=BEE" target="_blank">Hive-Engine</a> | <a href="https://tribaldex.com/trade/BEE" target="_blank">TribalDex</a> (recommended)</p>
+            <p><small>All the prices are based off of the <b>last</b> trade made. These can vary dramatically due to <b>one wild trade</b>. Always be careful and check Hive-Engine token markets for a wider view.</small></p>
+        </center>
+    </small>
+    <p>
+        <center>
+            <small><small><i>The H-E Converter uses the APIs of: <a href="https://history.hive-engine.com/marketHistory?symbol=LUV" target="_blank">history.hive-engine.com</a> | <a href="https://min-api.cryptocompare.com/" target="_blank">CryptoCompare.com</a></i></small></small>
+        </center>
+    </p>
+    <center>
+        <div class="w3-container">
+            <a href="https://hivetiptokens.vercel.app" class="w3-button w3-round-large w3-yellow">Hive Tip Tokens</a>
+            <a href="https://sbc-v8.vercel.app" class="w3-button w3-round-large w3-orange">Satoshi Bitcoin Converter</a>
+        </div>
+        <p></p>
+        <small>This tool is <a href="https://github.com/crrdlx/heconverter" target="_blank">open source here</a>. Help is welcome.</small>
+        <br><small>Made with <a href="https://hive.blog/@luvshares" target="_blank"><img src="images/luv.png" border="0" width="28"></a> by <a href="https://hive.blog/@crrdlx/about" target="_blank">crrdlx</a></small>
+    </center>
+
+    <!-- Statcounter -->
+    <script type="text/javascript">
+        var sc_project=12518764;
+        var sc_invisible=1;
+        var sc_security="e447a16f";
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript><div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img class="statcounter" src="https://c.statcounter.com/12518764/0/e447a16f/1/" alt="Web Analytics"></a></div></noscript>
+
+    <!-- JavaScript -->
+    <script language="JavaScript">
+        // HEconverter Variables and Functions
+        let tokenSelected = "HIVE";
+        let hivePriceUSD = 0;
+        let btcPriceUSD = 0;
+        let tokenPriceHive = 0;
+
+        function init() {
+            updatePrices();
+            loadTipTokens();
+        }
+
+        function updatePrices() {
+            tokenSelected = document.getElementById("token").value;
+            document.getElementById("tokenDisplay").textContent = tokenSelected;
+            document.getElementById("tokenNamePrice").textContent = tokenSelected;
+
+            const form = document.unitconverter;
+            form.tokenValue.value = "1";
+            form.usdValue.value = "";
+            form.satsValue.value = "";
+
+            $.getJSON("https://min-api.cryptocompare.com/data/price?fsym=HIVE&tsyms=USD", function(data) {
+                hivePriceUSD = data.USD || 0;
+                if (tokenSelected === "HIVE") {
+                    $("#tokenPrice").text(hivePriceUSD.toFixed(2));
+                }
+                $("#HIVEPrice").text(addCommas(hivePriceUSD.toFixed(2)));
+                $("#HIVEPriceTop").text(addCommas(hivePriceUSD.toFixed(2)));
+                if (btcPriceUSD && (tokenSelected === "HIVE" || tokenPriceHive)) tokenConvert();
+            }).fail(function(jqXHR, textStatus, error) {
+                alert("Error fetching HIVE price: " + textStatus + ", " + error);
+            });
+
+            $.getJSON("https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD", function(data) {
+                btcPriceUSD = data.USD || 0;
+                $("#BTCPrice").text(addCommas(btcPriceUSD.toFixed(2)));
+                $("#BTCPriceTop").text(addCommas(btcPriceUSD.toFixed(2)));
+                if (hivePriceUSD && (tokenSelected === "HIVE" || tokenPriceHive)) tokenConvert();
+            }).fail(function(jqXHR, textStatus, error) {
+                alert("Error fetching BTC price: " + textStatus + ", " + error);
+            });
+
+            if (tokenSelected !== "HIVE") {
+                $.getJSON(`https://history.hive-engine.com/marketHistory?symbol=${tokenSelected}`, function(data) {
+                    tokenPriceHive = data[0]?.closePrice || 0;
+                    $("#tokenPrice").text((tokenPriceHive * hivePriceUSD).toFixed(6));
+                    if (hivePriceUSD && btcPriceUSD) tokenConvert();
+                }).fail(function(jqXHR, textStatus, error) {
+                    alert(`Error fetching ${tokenSelected} price: ${textStatus}, ${error}`);
+                });
+            } else {
+                tokenPriceHive = 1;
+                if (hivePriceUSD && btcPriceUSD) tokenConvert();
+            }
+        }
+
+        function parseNumber(str) {
+            return parseFloat(str.replace(/,/g, "")) || 0;
+        }
+
+        function formatNumber(num, decimals = 0) {
+            return num.toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+        }
+
+        function tokenConvert() {
+            const form = document.unitconverter;
+            const tokenValue = parseNumber(form.tokenValue.value);
+            const usdValue = tokenSelected === "HIVE" ? tokenValue * hivePriceUSD : tokenValue * tokenPriceHive * hivePriceUSD;
+            const satsValue = (usdValue / btcPriceUSD) * 100000000;
+
+            form.usdValue.value = formatNumber(usdValue, 2);
+            form.satsValue.value = formatNumber(satsValue, 2);
+        }
+
+        function usdConvert() {
+            const form = document.unitconverter;
+            const usdValue = parseNumber(form.usdValue.value);
+            const tokenValue = tokenSelected === "HIVE" ? usdValue / hivePriceUSD : usdValue / (tokenPriceHive * hivePriceUSD);
+            const satsValue = (usdValue / btcPriceUSD) * 100000000;
+
+            form.tokenValue.value = formatNumber(tokenValue, 6);
+            form.satsValue.value = formatNumber(satsValue, 2);
+        }
+
+        function satsConvert() {
+            const form = document.unitconverter;
+            const satsValue = parseNumber(form.satsValue.value);
+            const usdValue = (satsValue / 100000000) * btcPriceUSD;
+            const tokenValue = tokenSelected === "HIVE" ? usdValue / hivePriceUSD : usdValue / (tokenPriceHive * hivePriceUSD);
+
+            form.tokenValue.value = formatNumber(tokenValue, 6);
+            form.usdValue.value = formatNumber(usdValue, 2);
+        }
+
+        // Hive Tip Tokens Variables and Functions
+        const addCommas = num => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        const toFix = str => (+str).toFixed(6);
+
+        function calcTip($div) {
+            const $row = $div.closest("tr");
+            const $cells = $row.find("td");
+            const qty = +$cells.eq(2).text().split(" ")[0];
+            const val = parseFloat($div.text());
+
+            const hiveValue = val * qty;
+            $cells.eq(3).text(isNaN(hiveValue) ? "" : hiveValue.toFixed(4));
+
+            const valusd = hiveValue * hivePriceUSD;
+            $cells.eq(4).text(isNaN(valusd) ? "" : valusd.toFixed(4));
+
+            if (btcPriceUSD > 0) {
+                const satsValue = (valusd / btcPriceUSD) * 100000000;
+                $cells.eq(5).text(isNaN(satsValue) ? "" : addCommas(satsValue.toFixed(2)));
+            }
+        }
+
+        function loadTipTokens() {
+            const tokens = [
+                "AFIT", "ALIVE", "BBH", "BEER", "BLAQ", "BLAQGOLD", "BLAQEMRLD", "CTP", "ENGAGE", "HBIT",
+                "HUG", "IDD", "LOH", "LOLZ", "LUV", "PGM", "PIMP", "PIZZA", "VSC", "SLOTHBUZZ", "WINEX"
+            ];
+
+            tokens.forEach(token => {
+                $.getJSON(`https://history.hive-engine.com/marketHistory?symbol=${token}`, function(data) {
+                    const price = toFix(data[0]?.closePrice || 0);
+                    $(`#${token}Price`).text(price);
+                    calcTip($(`#${token}Price`));
+                }).fail(function(jqXHR, textStatus, error) {
+                    alert(`Error fetching ${token} price: ${textStatus}, ${error}`);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
