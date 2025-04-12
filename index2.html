@@ -32,19 +32,57 @@
         h3 { font-size: 1.5em; }
         input[type=text] { width: 135px; }
         select { margin: 0.5em; padding: 0.2em; }
-        .form-container { max-width: 350px; margin: 0 auto; text-align: left; }
+        .form-container {
+            max-width: 350px;
+            margin: 0 auto;
+            text-align: left;
+            padding-left: 20px; /* Shift form right on mobile */
+        }
         .form-container td { padding: 0.3em 0; }
-        .price-info { text-align: center; margin: 0.5em 0; }
-        .price-info div, .price-info span { display: block; margin: 0 auto; }
-        .price-block { text-align: center; margin: 0.5em 0; }
-        .price-block div, .price-block span { display: block; margin: 0 auto; }
+        .form-container input, .form-container span {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .price-info {
+            text-align: center;
+            margin: 0.5em 0;
+            width: 100%;
+        }
+        .price-info div, .price-info span {
+            display: block;
+            text-align: center;
+            margin: 0 auto;
+        }
         #tokenDisplay { width: 150px; display: inline-block; vertical-align: middle; }
-        /* Hive Tip Tokens styles */
-        #calcTable { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        #calcTable th, #calcTable td { padding: 8px; text-align: center; }
-        #calcTable th { background-color: #ddd; }
-        #calcTable tr:nth-child(even) { background-color: #dddddd; }
+        /* Hive Tip Tokens table styles */
+        #calcTable {
+            width: 100%;
+            max-width: 600px; /* Narrower for mobile */
+            border-collapse: collapse;
+            margin: 20px auto;
+            font-size: 0.9em; /* Smaller font for mobile */
+        }
+        #calcTable th, #calcTable td {
+            padding: 6px; /* Reduced padding */
+            text-align: center;
+            border: 1px solid #ccc; /* Add borders like original */
+        }
+        #calcTable th {
+            background-color: #ddd;
+            font-weight: bold;
+        }
+        #calcTable tr:nth-child(even) {
+            background-color: #f2f2f2; /* Lighter for readability */
+        }
         #calcTable td:first-child { text-align: left; } /* Left-align token names */
+        @media (max-width: 600px) {
+            #calcTable {
+                font-size: 0.8em; /* Even smaller on mobile */
+            }
+            #calcTable th, #calcTable td {
+                padding: 4px;
+            }
+        }
     </style>
 </head>
 <body onload="init()">
@@ -125,21 +163,19 @@
         </table>
     </div>
 
-    <p class="price-info">
+    <div style="text-align: center; margin: 0.5em 0;">
         <small><small>
-            Approximate value of one <span id="tokenNamePrice">HIVE</span> at pageload (in USD):
+            <span style="display: inline;">Approximate value of one <span id="tokenNamePrice">HIVE</span> at pageload (in USD): </span>
+            <span id="tokenPrice" style="display: inline;">Loading current price...</span>
         </small></small>
-    </p>
-    <div class="price-info"><big>
-        <div id="tokenPrice">Loading current price...</div>
-    </big></div>
-    <div class="price-info"><span style="color:firebrick">United States Dollar (USD)</span></div>
-    <p class="price-info">
+    </div>
+
+    <div class="price-info">
         <div id="HIVEPriceTop">Loading last traded price in USD...</div>
         <span style="color:firebrick">value of 1 HIVE in USD</span>
         <div id="BTCPriceTop">Loading last traded price in USD...</div>
         <span style="color:darkorange">value of 1 BTC in USD</span>
-    </p>
+    </div>
     <p align="center">
         <a href="javascript:document.location.reload();" onmouseover="window.status='Refresh'; return true" onmouseout="window.status='ah... that was good'">
             <img src="images/refresh.png" width="45" border="0" alt="Refresh" />
@@ -275,12 +311,12 @@
 
     <center><small><small>+CTP is tipped between 0.1 and 0.5 CTP, depending on the staked amount. | *ENGAGE may not have a standard tip quantity, but 10 ENGAGE is a normally tipped amount.</small></small></center><br>
 
-    <p class="price-block">
+    <div class="price-info">
         <div id="HIVEPrice">Loading last traded price in USD...</div>
         <span style="color:firebrick">value of 1 HIVE in USD</span>
         <div id="BTCPrice">Loading last traded price in USD...</div>
         <span style="color:darkorange">value of 1 BTC in USD</span>
-    </p>
+    </div>
 
     <p align="center">
         <a href="javascript:document.location.reload();" onmouseover="window.status='Refresh'; return true" onmouseout="window.status='ah... that was good'">
