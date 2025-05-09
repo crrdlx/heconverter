@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert between Hive, Hive-Engine tokens, USD, and satoshis.">
+    <title>HEconverter</title>
+    
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="css/layouts/side-menu.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    
+    <style>
+        html { font-size: medium; }
+        body {
+            background-color: #f6f6f6;
+            color: #330;
+            font-family: verdana, georgia, times, serif;
+            padding: 0 1em;
+            max-width: 80em;
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+        a { color: #1e6b8c; text-decoration: none; transition: all 0.3s linear 0.1s; }
+        a:visited { color: #6f32ad; }
+        a:hover { background: #b6cff9; text-decoration: underline; }
+        a:active { background-color: #427fed; color: white; }
+        h1, h2, h3, h4, h5, h6 { color: black; font-weight: bold; line-height: 1.2; margin: 2em 0 1em; }
+        h1 { font-size: 2.2em; text-align: center; }
+        input[type=text] { width: 135px; }
+        select { margin: 0.5em; padding: 0.2em; }
+        .form-container { max-width: 350px; margin: 0 auto; text-align: left; }
+        .form-container td { padding: 0.3em 0; }
+        .price-info { text-align: center; margin: 0.5em 0; }
+        #tokenDisplay { width: 150px; display: inline-block; vertical-align: middle; }
+    </style>
+</head>
+<body onload="init()">
+    <big><br>
+    <center>
+        <div class="w3-container">
+            <a href="index.html" class="w3-button w3-round-large w3-red">HE Converter</a>
+        </div>
+    </center>
+    <p align="center">
+        <small>Choose a token, enter a number.</small>
+    </p>
+
+    <!-- Dropdowns -->
+    <div style="text-align: center;">
+        <select id="token" onchange="updatePrices()">
+            <option value="HIVE" selected>HIVE</option>
+            <option value="AFIT">AFIT</option>
+            <option value="ALIVE">ALIVE</option>
+            <option value="BEE">BEE</option>
+            <option value="BEER">BEER</option>
+            <option value="BLURT">BLURT</option>
+            <option value="BRO">BRO</option>
+            <option value="CENT">CENT</option>
+            <option value="CINE">CINE</option>
+            <option value="CROP">CROP</option>
+            <option value="CTP">CTP</option>
+            <option value="DEC">DEC</option>
+            <option value="ENGAGE">ENGAGE</option>
+            <option value="HBIT">HBIT</option>
+            <option value="HELIOS">HELIOS</option>
+            <option value="HIQS">HIQS</option>
+            <option value="INDEX">INDEX</option>
+            <option value="LASSECASH">LASSECASH</option>
+            <option value="LEO">LEO</option>
+            <option value="LIST">LIST</option>
+            <option value="LOH">LOH</option>
+            <option value="LUV">LUV</option>
+            <option value="MEME">MEME</option>
+            <option value="ONEUP">ONEUP</option>
+            <option value="PAL">PAL</option>
+            <option value="PIZZA">PIZZA</option>
+            <option value="POB">POB</option>
+            <option value="POSH">POSH</option>
+            <option value="SIM">SIM</option>
+            <option value="SPORTS">SPORTS</option>
+            <option value="STARBITS">STARBITS</option>
+            <option value="TAN">TAN</option>
+            <option value="UTOPIS">UTOPIS</option>
+            <option value="VYB">VYB</option>
+            <option value="WINEX">WINEX</option>
+        </select>
+    </div>
+
+    <!-- Form Container -->
+    <div class="form-container">
+        <table border="0" cellpadding="0" cellspacing="0">
+            <form name="unitconverter">
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="text" inputmode="numeric" onkeyup="tokenConvert()" value="1" name="tokenValue" size="12">
+                            <span id="tokenDisplay">HIVE</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" inputmode="numeric" onkeyup="usdConvert()" value="" name="usdValue" size="12"> ≈ $ USD
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" inputmode="numeric" onkeyup="satsConvert()" value="" name="satsValue" size="12"> ≈ シ sats
+                        </td>
+                    </tr>
+                </tbody>
+            </form>
+        </table>
+    </div>
+
+    <p class="price-info">
+        <small><small>
+            Approximate value of one <span id="tokenNamePrice">HIVE</span> at pageload (in USD):
+        </small></small>
+    </p>
+    <div class="price-info"><big>
+        <div id="tokenPrice">Loading current price...</div>
+    </big></div>
+    <div class="price-info"><span style="color:firebrick">United States Dollar (USD)</span></div>
+
+    <p align="center">
+        <a href="javascript:document.location.reload();" onmouseover="window.status='Refresh'; return true" onmouseout="window.status='ah... that was good'">
+            <img src="images/refresh.png" width="45" border="0" alt="Refresh" />
+        </a>
+    </p>
+
+    <!-- Footer -->
+    <small>
+        <a href="about.html">About</a> | Want a Hive-Engine token listed here? Contact <a href="https://hive.blog/@crrdlx/about">crrdlx</a> Links: <a href="https://linktr.ee/crrdlx">linktr.ee/crrdlx</a>
+        <p><b>Disclaimer</b>: Use this tool at your own risk. It uses the last traded price to estimate values. Check the markets to research or trade.</p>
+        <p>Hive-Engine token markets: <a href="https://hive-engine.com/?p=market&t=BEE" target="_blank">Hive-Engine</a> | <a href="https://tribaldex.com/trade/BEE" target="_blank">TribalDex</a> (recommended)</p>
+    </small>
+    <p>
+        <small><small><i>The H-E Converter uses the APIs of: <a href="https://history.hive-engine.com/marketHistory?symbol=LUV" target="_blank">history.hive-engine.com</a> | <a href="https://min-api.cryptocompare.com/" target="_blank">CryptoCompare.com</a></i></small></small>
+    </p>
+    <center>
+        <div class="w3-container">
+            <a href="https://hivetiptokens.vercel.app" class="w3-button w3-round-large w3-yellow">Hive Tip Tokens</a>
+            <a href="https://sbc-v8.vercel.app" class="w3-button w3-round-large w3-orange">Satoshi Bitcoin Converter</a>
+        </div>
+        <p></p>
+        <small>This tool is <a href="https://github.com/crrdlx/heconverter" target="_blank">open source here</a>. Help is welcome.</small>
+        <br><small>Made with <a href="https://hive.blog/@luvshares" target="_blank"><img src="images/luv.png" border="0" width="28"></a> by <a href="https://hive.blog/@crrdlx/about" target="_blank">crrdlx</a></small>
+    </center>
+
+    <!-- Statcounter -->
+    <script type="text/javascript">
+        var sc_project=12518764;
+        var sc_invisible=1;
+        var sc_security="e447a16f";
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript><div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img class="statcounter" src="https://c.statcounter.com/12518764/0/e447a16f/1/" alt="Web Analytics"></a></div></noscript>
+
+    <!-- JavaScript -->
+    <script language="JavaScript">
+        let tokenSelected = "HIVE";
+        let hivePriceUSD = 0;
+        let btcPriceUSD = 0;
+        let tokenPriceHive = 0;
+
+        function init() {
+            updatePrices();
+        }
+
+        function updatePrices() {
+            tokenSelected = document.getElementById("token").value;
+            document.getElementById("tokenDisplay").textContent = tokenSelected;
+            document.getElementById("tokenNamePrice").textContent = tokenSelected;
+
+            // Reset token field to 1 on token change
+            const form = document.unitconverter;
+            form.tokenValue.value = "1";
+            form.usdValue.value = "";
+            form.satsValue.value = "";
+
+            // Fetch HIVE price in USD
+            $.getJSON("https://min-api.cryptocompare.com/data/price?fsym=HIVE&tsyms=USD", function(data) {
+                hivePriceUSD = data.USD || 0;
+                if (tokenSelected === "HIVE") {
+                    $("#tokenPrice").text(hivePriceUSD.toFixed(2));
+                }
+                if (btcPriceUSD && (tokenSelected === "HIVE" || tokenPriceHive)) tokenConvert();
+            }).fail(function(jqXHR, textStatus, error) {
+                alert("Error fetching HIVE price: " + textStatus + ", " + error);
+            });
+
+            // Fetch BTC price in USD
+            $.getJSON("https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD", function(data) {
+                btcPriceUSD = data.USD || 0;
+                if (hivePriceUSD && (tokenSelected === "HIVE" || tokenPriceHive)) tokenConvert();
+            }).fail(function(jqXHR, textStatus, error) {
+                alert("Error fetching BTC price: " + textStatus + ", " + error);
+            });
+
+            // Fetch token price in HIVE if not HIVE
+            if (tokenSelected !== "HIVE") {
+                $.getJSON(`https://history.hive-engine.com/marketHistory?symbol=${tokenSelected}`, function(data) {
+                    tokenPriceHive = data[0]?.closePrice || 0;
+                    $("#tokenPrice").text((tokenPriceHive * hivePriceUSD).toFixed(6));
+                    if (hivePriceUSD && btcPriceUSD) tokenConvert();
+                }).fail(function(jqXHR, textStatus, error) {
+                    alert(`Error fetching ${tokenSelected} price: ${textStatus}, ${error}`);
+                });
+            } else {
+                tokenPriceHive = 1; // HIVE to HIVE is 1
+                if (hivePriceUSD && btcPriceUSD) tokenConvert();
+            }
+        }
+
+        // Helper function to parse number
+        function parseNumber(str) {
+            return parseFloat(str.replace(/,/g, "")) || 0;
+        }
+
+        // Helper function to format number
+        function formatNumber(num, decimals = 0) {
+            return num.toLocaleString("en-US", {
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals
+            });
+        }
+
+        // Token/HIVE to USD and sats
+        function tokenConvert() {
+            const form = document.unitconverter;
+            const tokenValue = parseNumber(form.tokenValue.value);
+            const usdValue = tokenSelected === "HIVE" ? tokenValue * hivePriceUSD : tokenValue * tokenPriceHive * hivePriceUSD;
+            const satsValue = (usdValue / btcPriceUSD) * 100000000;
+
+            form.usdValue.value = formatNumber(usdValue, 2);
+            form.satsValue.value = formatNumber(satsValue, 2); // Changed to 2 decimals
+        }
+
+        // USD to Token/HIVE and sats
+        function usdConvert() {
+            const form = document.unitconverter;
+            const usdValue = parseNumber(form.usdValue.value);
+            const tokenValue = tokenSelected === "HIVE" ? usdValue / hivePriceUSD : usdValue / (tokenPriceHive * hivePriceUSD);
+            const satsValue = (usdValue / btcPriceUSD) * 100000000;
+
+            form.tokenValue.value = formatNumber(tokenValue, 6);
+            form.satsValue.value = formatNumber(satsValue, 2); // Changed to 2 decimals
+        }
+
+        // Sats to Token/HIVE and USD
+        function satsConvert() {
+            const form = document.unitconverter;
+            const satsValue = parseNumber(form.satsValue.value);
+            const usdValue = (satsValue / 100000000) * btcPriceUSD;
+            const tokenValue = tokenSelected === "HIVE" ? usdValue / hivePriceUSD : usdValue / (tokenPriceHive * hivePriceUSD);
+
+            form.tokenValue.value = formatNumber(tokenValue, 6);
+            form.usdValue.value = formatNumber(usdValue, 2);
+        }
+    </script>
+</body>
+</html>

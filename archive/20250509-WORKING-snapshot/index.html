@@ -279,7 +279,7 @@
                         <td>1</td><td></td><td></td><td></td>
                     </tr>
                     <tr>
-                        <td><a href=":https://tribaldex.com/trade/LUV" target="_blank">📈</a> <a href="https://peakd.com/@luvshares/about" target="_blank">LUV</a></td>
+                        <td><a href="https://tribaldex.com/trade/LUV" target="_blank">📈</a> <a href="https://peakd.com/@luvshares/about" target="_blank">LUV</a></td>
                         <td><div id="LUVPrice">Loading last traded price...</div></td>
                         <td>1</td><td></td><td></td><td></td>
                     </tr>
@@ -457,7 +457,7 @@
             const usdValue = tokenSelected === "HIVE" ? tokenValue * hivePriceUSD : tokenValue * tokenPriceHive * hivePriceUSD;
             const satsValue = (usdValue / btcPriceUSD) * 100000000;
 
-            form.usdValue.value = formatNumber(usdValue, 4);
+            form.usdValue.value = formatNumber(usdValue, 2);
             form.satsValue.value = formatNumber(satsValue, 2);
         }
 
@@ -478,7 +478,7 @@
             const tokenValue = tokenSelected === "HIVE" ? usdValue / hivePriceUSD : usdValue / (tokenPriceHive * hivePriceUSD);
 
             form.tokenValue.value = formatNumber(tokenValue, 6);
-            form.usdValue.value = formatNumber(usdValue, 4);
+            form.usdValue.value = formatNumber(usdValue, 2);
         }
 
         // Hive Tip Tokens Variables and Functions
@@ -520,6 +520,5 @@
             });
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93d265dfe9bdbcce',t:'MTc0NjgwNjMwMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>
